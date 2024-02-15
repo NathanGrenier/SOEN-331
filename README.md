@@ -2,6 +2,10 @@
 
 This Repository contains the programming assignments from Concordia's SOEN 331 class named `Introduction to Formal Methods`.
 
+## Contributing
+
+When working on the assignments, please work under the `assignment{x}` branch (where `{x}` is the assignment number) and not `main`.
+
 ## Submissions
 
 Your main submission consists of a `.tex` file and its corresponding `.pdf` compilation. All code should:
