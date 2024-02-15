@@ -2,6 +2,15 @@
 
 This Repository contains the programming assignments from Concordia's SOEN 331 class named `Introduction to Formal Methods`.
 
+## Setup
+
+To setup LaTeX for VsCode, I personally followed the linux install described in [this guide](https://mathjiajia.github.io/vscode-and-latex/).
+
+### Useful VsCode Extension
+
+- LaTeX Workshop
+- VSC-Prolog
+
 ## Contributing
 
 When working on the assignments, please work under the `assignment{x}` branch (where `{x}` is the assignment number) and not `main`.
