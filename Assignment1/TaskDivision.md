@@ -1,11 +1,11 @@
 # Nathan's Problems
 
 - #1
-- #2
 - #3
+- #5
 
 # Nirav's Problems
 
-- #5
+- #2
+- #4
 - #6
-- #7
