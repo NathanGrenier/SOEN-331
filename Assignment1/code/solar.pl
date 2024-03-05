@@ -62,3 +62,13 @@ orbits(despina, neptune).
 orbits(galatea, neptune).
 orbits(larissa, neptune).
 orbits(thalassa, neptune).
+
+% Rule to define a planet
+is_planet(X) :- mass(X, Mass), Mass >= 0.33, orbits(X, sun).
+
+% Rule to define a satellite of a planet
+is_satellite_of(Satellite, Planet) :- orbits(Satellite, Planet), is_planet(Planet).
+
+% Rule to obtain all satellites of a given planet
+all_satellites(Planet, Satellites) :- findall(Satellite, is_satellite_of(Satellite, Planet), Satellites).
+	
