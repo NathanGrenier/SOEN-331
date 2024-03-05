@@ -438,7 +438,7 @@ all_satellites(Planet, Satellites) :- findall(Satellite, is_satellite_of(Satelli
 		      		      		      		      		      		      
 		      \textbf{Solution}: We can express it as follows:
 		      		      		      		      		      		      
-		      $$\neg(\square \phi \land \square \psi)\rightarrow (\bigcirc^2 (\Diamond \chi \land (\chi U \tau)))$$
+		      $$\neg(\square \phi \land \square \psi)\rightarrow (\bigcirc^2 (\Diamond \chi \land (\tau R \chi)))$$
 		      		      		      		      		      		      
 		      and, among the many ways to visualize the requirement, we can discuss the different variations using the following two models:
 		      		      		      		      		      		              
@@ -450,7 +450,7 @@ all_satellites(Planet, Satellites) :- findall(Satellite, is_satellite_of(Satelli
 		      		\filldraw (3,0) circle (3pt) node[below=3pt] {} node[above=3pt] {i + 1};
 		      		\filldraw (5,0) circle (3pt) node[below=3pt] {\shortstack{$\chi$}} node[above=3pt] {i + 2};
 		      		\filldraw (7,0) circle (3pt) node[below=3pt] {\shortstack{$\chi$}} node[above=3pt] {i + 3};
-		      		\filldraw (9,0) circle (3pt) node[below=3pt] {\shortstack{$\tau$}} node[above=3pt] {i + 4};
+		      		\filldraw (9,0) circle (3pt) node[below=3pt] {\shortstack{$\tau$ \\ $\chi$}} node[above=3pt] {i + 4};
 
 		      		\draw[dashed, ->] (9,0) -- (11,0);
 		      	\end{tikzpicture}
@@ -467,9 +467,35 @@ all_satellites(Planet, Satellites) :- findall(Satellite, is_satellite_of(Satelli
 
 		      		\draw[dashed, ->] (11,0) -- (13,0);
 		      	\end{tikzpicture}
+
+                \begin{tikzpicture}
+		      		\draw (1,0) -- (11,0);
+
+		      		\filldraw (1,0) circle (3pt) node[below=3pt] {\shortstack{$\phi$ \\ $\psi$}} node[above=3pt] {i};
+		      		\filldraw (3,0) circle (3pt) node[below=3pt] {$\psi$} node[above=3pt] {i + 1};
+		      		\filldraw (5,0) circle (3pt) node[below=3pt] {$\psi \ldots$} node[above=3pt] {i + 2};
+		      		\filldraw (7,0) circle (3pt) node[below=3pt] {\shortstack{$\chi$}} node[above=3pt] {i + 3};
+		      		\filldraw (9,0) circle (3pt) node[below=3pt] {\shortstack{$\chi$}} node[above=3pt] {i + 4};
+		      		\filldraw (11,0) circle (3pt) node[below=3pt] {\shortstack{$\chi$} \ldots } node[above=3pt] {i + 5};
+
+		      		\draw[dashed, ->] (11,0) -- (13,0);
+		      	\end{tikzpicture}
+
+                \begin{tikzpicture}
+		      		\draw (1,0) -- (11,0);
+
+		      		\filldraw (1,0) circle (3pt) node[below=3pt] {\shortstack{$\psi$ \\ $\phi$}} node[above=3pt] {i};
+		      		\filldraw (3,0) circle (3pt) node[below=3pt] {$\phi$} node[above=3pt] {i + 1};
+		      		\filldraw (5,0) circle (3pt) node[below=3pt] {$\phi \dots$} node[above=3pt] {i + 2};
+		      		\filldraw (7,0) circle (3pt) node[below=3pt] {\shortstack{$\chi$}} node[above=3pt] {i + 3};
+		      		\filldraw (9,0) circle (3pt) node[below=3pt] {\shortstack{$\chi$}} node[above=3pt] {i + 4};
+		      		\filldraw (11,0) circle (3pt) node[below=3pt] {\shortstack{$\chi$} \ldots } node[above=3pt] {i + 5};
+
+		      		\draw[dashed, ->] (11,0) -- (13,0);
+		      	\end{tikzpicture}
 		      \end{center}
 		      		      		      		      		      		      
-		      It should be noted that the requirement "none of $\phi$ or $\psi$ ar invariants" introduces the idea that both atomic propositions $\phi$ and $\psi$ can be true at some point a finite number of times, and can also be false in other times as well.\\
+		      It should be noted that the requirement "none of $\phi$ or $\psi$ are invariants" introduces the idea that both atomic propositions $\phi$ and $\psi$ can be true at some point a finite number of times, and can also be false in other times as well.\\
 		      		      		      		      		      		              
 		      Additionally, with the lack of guarantee that the atomic proposition $\tau$ will ever become true, we can visualize the requirement as having the proposition become true at some point in time or simply never become true, letting the atomic proposition $\chi$ remain true.
 		      		      		      		      		      		      
@@ -1032,7 +1058,7 @@ cons(Element, List, [Element|List]).
 		      	      		      	      
 		      	\item $f(5) = f(4) \cup \langle c \rangle = \langle a, b \rangle \cup \langle c \rangle = \langle a, b, c \rangle$ (Adding the non-redundant element)
 		      	      		      	      
-		      	\item $f(6) = f(5) \cup \langle a \rangle = \langle a, b, c \rangle \cup \langle a] = \langle a, b, c, a \rangle$ (Adding the last non-redundant element)
+		      	\item $f(6) = f(5) \cup \langle a \rangle = \langle a, b, c \rangle \cup \langle a \rangle = \langle a, b, c, a \rangle$ (Adding the last non-redundant element)
 		      \end{enumerate}
 		      
 		      Alternatively, we can unfold the computable definition of the function as well, \\
