@@ -113,6 +113,8 @@ We're trying to prove the proposition: $$p \rightarrow q$$
 		\end{itemize}
 		$$S(x, y) \equiv O(x, y) \land P(y) $$
 
+		\pagebreak
+
 		\item (3 pts) (PROGRAMMING) Map your formulas to Prolog rules is planet/1, and is satellite of/2, and demonstrate how it works by executing both ground- and non-ground queries. Identify the type of each query.
 		\textbf{Solution}:
 		Here are the translated prologue rules:
@@ -161,6 +163,9 @@ is_satellite_of(X, Y) :- is_planet(Y), orbits(X, Y).
 			\includegraphics[width=0.7\textwidth]{./static/prolog_queries.png}
 			\caption{Screenshot of CLI Outputs}
 		\end{figure}
+		
+		\pagebreak
+
 		\item  (3 pts) (PROGRAMMING) Construct a Prolog rule obtain\_all\_satellites/2 that succeeds by returning a collection of all satellites of a given planet.
 		
 		\textbf{Solution:}
@@ -177,6 +182,8 @@ obtain_all_satellites(Planet, Satellites) :- findall(Satellite, is_satellite_of(
 	\end{figure}
 	\end{enumerate}
 	
+	\pagebreak
+	
 	\noindent \textbf{Part 2: Categorical propositions} (2 pts)\\
 	In the domain of all integers, let $number(x)$ denote the statement “$x$ is a number”, and $composite(x)$ denote the statement “$x$ is a composite.” Formalize the following sentences and indicate their corresponding formal type:\\
 							
@@ -184,24 +191,65 @@ obtain_all_satellites(Planet, Satellites) :- findall(Satellite, is_satellite_of(
 	\begin{enumerate}
 		\item "Some numbers are not composite."
 		      \begin{itemize}
-		      	\item Formalization:
-		      	\item Corresponding Formal Type:
+		      	\item Formalization: $\exists x(number(x) \land \lnot composite(x))$
+		      	\item Corresponding Formal Type: Particular Negative (O)
 		      \end{itemize}
 		\item "No numbers are prime."
 		      \begin{itemize}
-				\item Formalization:
-				\item Corresponding Formal Type:
+				\item Formalization: $\forall x(number(x) \rightarrow \lnot prime(x)) \equiv \forall x(number(x) \rightarrow composite(x) )$
+				\item Corresponding Formal Type: Universal Affirmative (A)
 		      \end{itemize}
 		\item "Some numbers are not prime."
 		      \begin{itemize}
-				\item Formalization:
-				\item Corresponding Formal Type:
+				\item Formalization: $\exists x(number(x) \land \lnot prime(x)) \equiv \exists x(number(x) \land composite(x))$
+				\item Corresponding Formal Type: Particular Affirmative (I)
 		      \end{itemize}
 		\item "All numbers are prime."
 		      \begin{itemize}
-				\item Formalization:
-				\item Corresponding Formal Type:
+				\item Formalization: $\forall x(number(x) \rightarrow prime(x)) \equiv \forall x(number(x)\rightarrow \lnot composite(x))$
+				\item Corresponding Formal Type: Universal Negative (E)
 		      \end{itemize}
 	\end{enumerate}
+	
+	\pagebreak
+
+	\noindent \textbf{Part 3: Categorical propositions} (4 pts)\\
+	For subject $S$ and predicate $P$, we can express the Type $A$ categorical proposition as
+							
+	$$\forall s : S | s \in P$$
+							
+	\begin{enumerate}
+		\item Prove formally that negating $A$ is logically equivalent to obtaining $O$ (and vice versa).
+			\textbf{Solution}:
+			\begin{itemize}
+				\item Negation of A: $\lnot (\forall s : S | s \in P)$
+				\item Apply the negation inside the quantifier: $\exists s : S | s \notin P$
+				\item This is the Type O categorical proposition (Particular Negative): Some S are not P.
+				\item We can negate this new expression to obtain the original proposition of type A.
+			\end{itemize}
+		\item Prove formally that negating E is logically equivalent to obtaining $I$ (and vice versa).
+		      \textbf{Solution}:
+			  \begin{itemize}
+				\item The categorical proposition of type E is: $\forall s : S | s \notin P$
+				\item Negation of E: $\lnot (\forall s : S | s \notin P)$
+				\item Apply the negation inside the quantifier: $\exists s : S | s \in P$
+				\item This is the Type I categorical proposition (Particular Affirmative): Some S are in P.
+				\item We can negate this new expression to obtain the original proposition of type E.
+			  \end{itemize}
+	\end{enumerate}
+								    
+							    
+	\newpage
+							    
+	\section*{PROBLEM 3: Temporal logic (22 pts)}
+
+	The behavior of a program is expressed by the following temporal formula:
+							
+	\begin{figure}[htp]
+		\centering
+		\includegraphics{./static/templogicfigure.png}
+		\caption{Temporal Formula}
+		\label{fig:figure}
+	\end{figure}
 \end{spacing} 
 \end{document}
