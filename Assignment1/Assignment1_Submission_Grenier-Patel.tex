@@ -103,10 +103,10 @@ Assignment 1}
 	\begin{enumerate}
 		\item 
 		      (2 pts) Construct a formula in predicate logic to define a planet, where planet is defined
-		      as an object whose mass is greater than $0.33\times10^{24}$ \textit{KG}, and which it orbits around the
+		      as an object whose mass is greater than or equal to $0.33\times10^{24}$ \textit{KG}, and which it orbits around the
 		      sun. For all practical purposes, you may ignore the $10^{24}$ \textit{KG} factor.\\
 
-		      \textbf{Solution}: To define a planet in predicate logic based on its mass and orbit properties, we can construct the following formula://
+		      \textbf{Solution}: To define a planet in predicate logic based on its mass and orbit properties, we can construct the following formula:
 
 		      \begin{itemize}
 		      	\item Let $P(x)$ represent "$x$ is a planet."
@@ -149,7 +149,7 @@ Assignment 1}
 is_planet(X) :- mass(X, Mass), Mass >= 0.33, orbits(X, sun).
 
 % Rule to define a satellite of a planet
-is_satellite_of(Satellite, Planet) :- orbits(Satellite, Planet), is_planet(Planet).       
+is_satellite_of(Satellite, Planet) :- is_planet(Planet), orbits(Satellite, Planet).       
 		      \end{lstlisting}
 
 		      Now, we demonstrate how these rules work using both ground and non-ground queries:\\
@@ -199,7 +199,7 @@ is_satellite_of(Satellite, Planet) :- orbits(Satellite, Planet), is_planet(Plane
 		      	      \end{itemize}
 		      	           
 		      	\item 
-		      	      Query \texttt{?- is\_sattelite\_of(S, mars).}
+		      	      Query \texttt{?- is\_satellite\_of(S, mars).}
 		      	      \begin{itemize}
 		      	      	\item Type: Non-Ground Query
 		      	      	\item Result: \texttt{\\
@@ -207,6 +207,15 @@ is_satellite_of(Satellite, Planet) :- orbits(Satellite, Planet), is_planet(Plane
 		      	      		S=phobos;\\
 		      	      	false\\}\\
 		      	      \end{itemize}
+
+                \item
+                    Query \texttt{?- is\_satellite\_of(moon, Planet).}
+                    \begin{itemize}
+                        \item Type: Non-Ground Query
+                        \item Result: \texttt{\\
+                            Planet = earth;\\
+                            false\\}
+                    \end{itemize}
 		      	              
 		      \end{enumerate}
 		      		      		      		      		      		      		      		      
@@ -236,7 +245,7 @@ all_satellites(Planet, Satellites) :- findall(Satellite, is_satellite_of(Satelli
 		      \texttt{?- all\_satellites(jupiter, Satellites).}
 		      		      		      		      		      		      		      		      
 		      \textbf{Result}:\\
-		      \texttt{Satellites = [arche, callisto, europa, io, themisto]}\\ \\ \\ \\
+		      \texttt{Satellites = [arche, callisto, europa, io, themisto]}\\
 	\end{enumerate}
 								
 	\noindent \textbf{Part 2: Categorical propositions} (2 pts)\\
@@ -249,28 +258,28 @@ all_satellites(Planet, Satellites) :- findall(Satellite, is_satellite_of(Satelli
 		      		      		      		      		      		      		      
 		      \begin{itemize}
 		      	\item Formalization: $\exists x(number(x) \land \neg composite(x))$
-		      	\item Corresponding Formal Type: I (Particular Affirmative)
+		      	\item Corresponding Formal Type: O (Particular Negative)
 		      \end{itemize}
 		      		      		      		      		      		      		        
 		\item "No numbers are prime."
 		      		      		      		      		      		      		      
 		      \begin{itemize}
-		      	\item Formalization: $\forall x (number(x) \rightarrow \neg prime(x)$
-		      	\item Corresponding Formal Type: E (Universal Negative)
+		      	\item Formalization: $\forall x (number(x) \rightarrow composite(x))$
+		      	\item Corresponding Formal Type: A (Universal Affirmative)
 		      \end{itemize}
 		      		      		      		      		      		      		        
 		\item "Some numbers are not prime."
 		      		      		      		      		      		      		      
 		      \begin{itemize}
-		      	\item Formalization: $\exists x(number(x) \land \neg prime(x)$
+		      	\item Formalization: $\exists x(number(x) \land composite(x))$
 		      	\item Corresponding Formal Type: I (Particular Affirmative)
 		      \end{itemize}
 		      		      		      		      		      		      		        
 		\item "All numbers are prime."
 		      		      		      		      		      		      		      
 		      \begin{itemize}
-		      	\item Formalization: $\forall x(number(x) \rightarrow prime(x))$
-		      	\item Corresponding Formal Type: A (Universal Affirmative)\\ \\ \\ \\
+		      	\item Formalization: $\forall x(number(x) \rightarrow \neg composite(x))$
+		      	\item Corresponding Formal Type: E (Universal Negative) \\ \\ \\ \\
 		      \end{itemize}
 		      		      		      		      		      		      		              
 	\end{enumerate}
@@ -318,7 +327,7 @@ all_satellites(Planet, Satellites) :- findall(Satellite, is_satellite_of(Satelli
 							
 	\begin{figure}[htp]
 		\centering
-		\includegraphics{templogicfigure.png}
+		\includegraphics{static/templogicfigure.png}
 		\caption{Temporal Formula}
 		\label{fig:figure}
 	\end{figure}
@@ -651,53 +660,12 @@ all_satellites(Planet, Satellites) :- findall(Satellite, is_satellite_of(Satelli
 		      		      		      		      
 		      \begin{itemize}
 		      	\item \textbf{is-memberp} Returns true if its first argument is found to be a member in the set provided by the second argument. Returns nil (false) otherwise.
-		      	      		      	      		      	      		      	      
-		      	      \begin{lstlisting}
-;; Define is-memberp function
-(defun is-memberp (element set)
-  "Check if ELEMENT is a member of SET."
-  (cond
-    ((null set) nil)                     ; If empty set, return nil.
-    ((equal element (car set)) t)        ; If the first element of the set equals ELEMENT, return true.
-    (t (is-memberp element (cdr set))))) ; Otherwise, recursively check the rest of the set.
 
-;; Demonstrate the behavior of the functions
-;; Test is-memberp function
-(print (is-memberp 'Ruby '(Python Ruby Lisp))) ; This will output T
-(print (is-memberp 'Go '(Python Ruby Lisp)))   ; This will output NIL
-		      	      \end{lstlisting}
-		      	      		      	      		      	      		      	      
-		      	      		      	      		      	      		      	      
+                    \lstinputlisting[language=Lisp]{code/is-member_4_9.lisp}
 		      	      		      	      		      	      		      	                      
 		      	\item \textbf{equal-setsp} Returns true if its two arguments are two identical sets. Returns nil (false) otherwise. You may assume that neither argument (set) contains any redundancies.
-		      	      		      	      		      	      		      	      
-		      	      \begin{lstlisting}
-;; Define equal-setsp function
-(defun equal-setsp (set1 set2)
-  "Check if SET1 and SET2 are equal sets."
-  (and (subsetp-func set1 set2) (subsetp-func set2 set1)))
 
-;; Define subsetp-func helper function
-(defun subsetp-func (subset set)
-  "Check if SUBSET is a subset of SET using a functional approach."
-  (cond
-    ((null subset) t)                 ; If the subset is empty, it is a subset.
-    ((is-memberp (car subset) set)    ; If the first element of the subset is in the set,
-     (subsetp-func (cdr subset) set)) ; continue checking the rest of the subset.
-    (t nil)))                         ; Otherwise, it's not a subset.
-
-;; Define is-memberp helper function
-(defun is-memberp (element set)
-  "Check if ELEMENT is a member of SET."
-  (cond
-    ((null set) nil)                     ; If empty set, return nil.
-    ((equal element (car set)) t)        ; If the first element of the set equals ELEMENT, return true.
-    (t (is-memberp element (cdr set))))) ; Otherwise, recursively check the rest of the set.
-
-;; Test equal-setsp function
-(print (equal-setsp '(Python Ruby Lisp) '(Lisp Python Ruby))) ; This will output T
-(print (equal-setsp '(Python Ruby) '(Lisp Python Ruby)))      ; This will output NIL
-		      	      \end{lstlisting}
+                    \lstinputlisting[language=Lisp]{code/equal-setsp_4_9.lisp}
 		      	      		      	      		      	      		      	                      
 		      \end{itemize}
 		      		      		      		                  
@@ -740,44 +708,12 @@ all_satellites(Planet, Satellites) :- findall(Satellite, is_satellite_of(Satelli
 		      Subsequent tickets are added to the incoming stack, maintaining the queue order. When we serve a ticket, we remove it from the processing stack, ensuring the next ticket served is the next in line. This process continues, ensuring that tickets are served in the order they were received. Tickets from the incoming stack are only sent to the processing stack when the processing stack is empty.
 		      		      		      		      
 		\item (3 pts) (\textbf{\uline{PROGRAMMING}}) Use Common LISP to define two stacks (\texttt{stack1} and \texttt{stack2} as global variables to hold the collection, and implement functions \texttt{enqueue} and \texttt{dequeue}.
-		      		      		      		      
-		      \begin{lstlisting}
-(defparameter stack1 '()) ; Define stack1 as an empty list
-(defparameter stack2 '()) ; Define stack2 as an empty list
 
-(defun enqueue (element) ; Define the enqueue function
-  (push element stack1)) ; Push the element onto stack1
-
-(defun dequeue () ; Define the dequeue function
-  (if (null stack2) ; Check if stack2 is empty
-      (progn ; If stack2 is empty
-        (setf stack2 (reverse stack1)) ; Transfer elements from stack1 to stack2 and reverse their order
-        (setf stack1 '()))) ; Reset stack1 to an empty list
-  (pop stack2)) ; Pop and return the top element from stack2
-
-; Test enqueue and dequeue operations
-(enqueue 1) ; Enqueue element 1
-(enqueue 2) ; Enqueue element 2
-(enqueue 3) ; Enqueue element 3
-
-(format t "Dequeued element: ~a~%" (dequeue)) ; Dequeue and print 1
-(format t "Dequeued element: ~a~%" (dequeue)) ; Dequeue and print 2
-(enqueue 4) ; Enqueue element 4
-(format t "Dequeued element: ~a~%" (dequeue)) ; Dequeue and print 3
-		      \end{lstlisting}
+            \lstinputlisting[language=Lisp]{code/enqueue-dequeue_5_2.lisp}
 		      		      		      		              
 		\item (2 pts) (\textbf{\uline{PROGRAMMING}}) Implement operations \textit{head}, \textit{tail} and \textit{cons} in Prolog and demonstrate their usage.
-		      		      		      		      
-		      \begin{lstlisting}
-% head/2 returns the first element of a list
-head([Head|_], Head).
 
-% tail/2 returns the list without its first element
-tail([_|Tail], Tail).
-
-% cons/3 adds an element to the beginning of a list
-cons(Element, List, [Element|List]).
-		      \end{lstlisting}
+            \lstinputlisting[language=Prolog]{code/head-tail-cons_5_3.pl}
 		      		      		      
 		      \begin{enumerate}
 		      	\item \textbf{head/2}: This predicate retrieves the first element of a list. It takes a list as its first argument and a variable to unify with the first element of the list. In Prolog, lists are represented as nested pairs [Head$|$Tail], where Head is the first element and Tail is the rest of the list. The head/2 predicate pattern-matches the list [Head$|$\_] and unifies Head with the first element of the list.
@@ -876,7 +812,7 @@ cons(Element, List, [Element|List]).
 		      		      
 		      \begin{figure}[htp]
 		      	\centering
-		      	\includegraphics{HasseDiagram_6_3_1.png}
+		      	\includegraphics{static/HasseDiagram_6_3_1.png}
 		      	\caption{Hasse Diagram Depicting $(V_1,R)$}
 		      	\label{fig:figure}
 		      \end{figure}
@@ -928,7 +864,7 @@ cons(Element, List, [Element|List]).
             
 		      \begin{figure}[htp]
 		      	\centering
-		      	\includegraphics{HasseDiagram_6_2_3.png}
+		      	\includegraphics{static/HasseDiagram_6_2_3.png}
 		      	\caption{Hasse Diagram Depicting $(\mathcal{P}(V_2),\subseteq)$}
 		      	\label{fig:figure}
 		      \end{figure}
@@ -950,7 +886,7 @@ cons(Element, List, [Element|List]).
 		
 	\begin{figure}[htp]
 		\centering
-		\includegraphics[width=1.1\textwidth]{FunctionMapping_6_3.png}
+		\includegraphics[width=1.1\textwidth]{static/FunctionMapping_6_3.png}
 		\caption{Function $map$}
 		\label{fig:figure}
 	\end{figure}
@@ -1058,10 +994,10 @@ cons(Element, List, [Element|List]).
 		      	      		      	      
 		      	\item $f(5) = f(4) \cup \langle c \rangle = \langle a, b \rangle \cup \langle c \rangle = \langle a, b, c \rangle$ (Adding the non-redundant element)
 		      	      		      	      
-		      	\item $f(6) = f(5) \cup \langle a \rangle = \langle a, b, c \rangle \cup \langle a \rangle = \langle a, b, c, a \rangle$ (Adding the last non-redundant element)
+		      	\item $f(6) = f(5) \cup \langle a \rangle = \langle a, b, c \rangle \cup \langle a \rangle = \langle a, b, c, a \rangle$ (Adding the last non-redundant element)\\
 		      \end{enumerate}
 		      
-		      Alternatively, we can unfold the computable definition of the function as well, \\
+		      Alternatively, we can unfold the computable definition of the function as well,
 		      
 		      \begin{enumerate}
 		      	\item Initial List: $\langle a, a, b, b, c, a \rangle$
@@ -1076,17 +1012,8 @@ cons(Element, List, [Element|List]).
 		      \end{enumerate}
 		      		      
 		\item (3 pts) (\uline{\textbf{PROGRAMMING}} Map your definition into a Common LISP function.\\
-		      		      
-		      \begin{lstlisting}
-(defun compress (lst)
-  (if (null lst) ; Base case: empty list
-      nil
-      (let ((rest (compress (cdr lst)))) ; Recursive call on the rest of the list
-        (if (or (null rest) ; If the rest is empty or the current element is different
-                (not (equal (car lst) (car rest))))
-            (cons (car lst) rest) ; Include the current element in the result
-            rest)))) ; Skip the current element and continue compressing the rest
-		      \end{lstlisting}
+            
+            \lstinputlisting[language=Lisp]{code/compress_7_4.lisp}	          
 		      		              
 	\end{enumerate}
 \end{spacing}
