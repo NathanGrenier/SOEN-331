@@ -9,6 +9,7 @@
 \usepackage{setspace}
 \usepackage{listings}
 
+
 \usepackage{amssymb,amsmath, amsthm}
 \usepackage{zed-csp}
 \usepackage[cc]{titlepic}
@@ -21,596 +22,186 @@ Assignment 1}
 \begin{spacing}{1.5}
 \begin{document}
 \maketitle
-
-
-
-\newpage
-
-\begin{enumerate}
-
-\item Here is some code in Prolog:
-
-\begin{verbatim}
-member(X, [X|_]).
-member(X, [_|T]) :- member(X, T).
-\end{verbatim}
-
-
-\item LTL formulas:
-
-\begin{enumerate}
-	
-	\item $\Box \phi \rightarrow \Diamond \psi $
-	
-	\noindent If $\phi$ is an invariant, then $\psi$ becomes true eventually.
-	
-	\item $\Box \phi \rightarrow \bigcirc \Box \Diamond \psi$
-	
-	\noindent If $\phi$ is an invariant, the $\psi$ will be true infinitely often, starting 	
-	from the next moment.
-	
-	\item $(\phi \wedge \bigcirc \psi) \rightarrow \Diamond \Box \tau$	
-	
-	\noindent If $phi$ is true at time = $i$ and $\psi$ is true at time = $i + 1$,
-	then eventually $\tau$ becomes true and stays true.
-	
-	\item $\Box (( \psi \wedge \bigcirc \chi) \rightarrow \bigcirc \tau)$
-	
-	\noindent It is always the case that if $\psi$ is true at time = $i$ and if $\chi$ is 	 
-	true at time = $i + 1$, then $\tau$ is true at time = $i + 1.$
-	
-	\item $ (\chi \wedge \bigcirc \omega) \rightarrow \bigcirc^{2} ( \phi ~\mathcal{U}~ \psi )$
-	
-	\noindent If $\chi$ is true at time = $i$ and if $\omega$ is true at time = $i + 1$,
-	then at time  = $i + 2$ $\phi$ becomes true and stays true until $\psi$ becomes 
-	true.
-	
-	\item $( \phi \oplus \psi ) \rightarrow \Box \omega $
-	
-	\noindent If one of $\phi$ or $\psi$ are true at time = $i$, then $\omega$ becomes at
-	invariant at time = $i.$	
-	
-	
-\end{enumerate}
-
-
-\item The behavior of a program is expressed by the following temporal formula:
-
-\[
-\Box	\begin{bmatrix}
-	
-	1.~~   \textbf{start} \rightarrow \neg a \vee \neg b  \\
-	\ \\
-	2.~~   \textbf{start} \rightarrow c\\
-	\ \\    
-	3.~~   b \wedge c \rightarrow \bigcirc^{2} (d \oplus e)\\
-	\ \\    
-	4.~~   a \vee c \rightarrow \bigcirc (k~\mathcal{R}~g)\\
-	\ \\    
-	5.~~   (d \vee e) \rightarrow \bigcirc^{2} k\\
-	\ \\    
-	6.~~   c \rightarrow (h ~\mathcal{W}~ (e \wedge g))\\
-	\ \\    
-	7.~~   (d \wedge g \wedge h) \rightarrow \bigcirc^{3} m\\
-	\ \\
-	8.~~   d \rightarrow m~\mathcal{R}~h \\
-	\ \\
-	9.~~   e \wedge \bigcirc^{2} (k \wedge g) \rightarrow \bigcirc^{2}m \\
-	\ \\
-	10.~~  (e \wedge g) \rightarrow \bigcirc^{3} c\\
-	\ \\
-	11.~~  k \wedge m \rightarrow \bigcirc h\\
-	\ \\
-	12.~~  (e \wedge \bigcirc^{2}k) \rightarrow \bigcirc^{3}b \\
-	
-\end{bmatrix}
-\]
-
-
-
-
-
-\item Let $B(x)$ denote the subject ``x is a bird'' and $W(x)$ denote the predicate ``x is white.'' Translate the following formal statements into English sentences and attach the corresponding categorical form to each:
-
-\begin{enumerate}
-\item $\forall x~(B(x) \rightarrow W(x))$
-
-
-\item $\forall x~(B(x) \rightarrow \neg W(x))$ 
-
-
-\item $\exists x~(B(x) \wedge W(x))$ 
-
-
-\item $\exists x~(B(x) \wedge \neg W(x))$ 
-\end{enumerate}
-
-\noindent \underline{Solution}: \\
-
-\begin{enumerate}
-\item $\forall x~(B(x) \rightarrow W(x))$ : ``All birds are white.'': (A)
-\item $\forall x~(B(x) \rightarrow \neg W(x))$ : ``All birds are non-white.'': (E)
-\item $\exists x~(B(x) \wedge W(x))$ : ``Some birds are white.'': (I)
-\item $\exists x~(B(x) \wedge \neg W(x))$ : ``There is an non-white bird.'': (O)
-\end{enumerate}
-
-
-\item Describe when the following predicate can be false: $\forall x \exists y P(x, y)$.\\
-
-\noindent \underline{Solution}: The statement can be false when there is an $x$ such that $P(x, y)$ is false for every $y$.
-
-
-
-\item Let $P(x, y)$ be the statement ``x asked y out to lunch'' where the domain is all students in class. Express each of the following quantifications in English:
-
-\begin{enumerate}
-\item $\exists y \forall x P(x, y)$.\\
-
-\noindent \underline{Solution}: Recall that this reads \textbf{''There in an $y$ that makes $P(x, y)$ true for every $x$.''} There is a student in class who has been asked out to lunch by every student in class.\\
-
-\item $\forall x \exists y P(x, y)$.\\
-
-\noindent \underline{Solution}: Recall that this reads \textbf{``For every $x$ there is a $y$ for which $P(x, y)$ is true.''} Every student in class has asked out to lunch some (at least one) student in class.
-\end{enumerate}
-
-
-\end{enumerate}
-
-
-
-
-
-\noindent \textbf{An important observation on functions is that we can view them as relations, and as such we can model a function as a set of pairs (tuples)}.
-
-\begin{enumerate}
-
-\item Consider the following relation:
-
-\[ phone : Model \leftrightarrow Brand \]
-
-\noindent where
-
-\[
-phone = \\
-\{ \\
-\hspace{10mm} iPhone7 \mapsto apple,\\
-\hspace{10mm} iPhoneX \mapsto apple,\\
-\hspace{10mm} galaxyS \mapsto samsung,\\
-\hspace{10mm} galaxyA \mapsto samsung,\\
-\hspace{10mm} galaxyJ \mapsto samsung,\\
-\hspace{10mm} mate20 \mapsto huawei,\\
-\hspace{10mm} p20 \mapsto huawei\\
-\}
-\]
-
-\begin{enumerate}
-
-\item What is the domain of the relation?\\
-
-\noindent $\dom~phone = \{ iPhone7, iPhoneX, galaxyS, galaxyA, galaxyJ, mate20, p20 \}$.
-
+\thispagestyle{empty}
 
 \newpage
 
-
-\item What is the range of the relation?\\
-
-\noindent $\ran~phone = \{ apple, samsung, huawei \}$.
-
-
-\ \\
-
-
-\item What is the result of the expression  $\{ iPhone7, galaxyA \}  \lhd phone$ ?\\
-
-
-\noindent Domain restriction selects pairs based on their first element. As a result,
-
-\[ \{ iPhone7, galaxyA \}  \lhd phone = \{ iPhone7 \mapsto apple, galaxyA \mapsto samsung \} \]
-
-
-\noindent Restriction operators are deployed to model database \textit{queries}.
-
-
-\ \\
-
-
-\item What is the result of the expression  $phone \rhd \{ apple, samsung \}$ ?\\
-
-
-\noindent Range restriction selects pairs based on their second element. As a result,
-
-\[ 
-phone \rhd \{ apple, samsung \} = \\
-
-\hspace{5mm} \{ \\
-\hspace{10mm} iPhone7 \mapsto apple,\\
-\hspace{10mm} iPhoneX \mapsto apple,\\
-\hspace{10mm} galaxyS \mapsto samsung,\\
-\hspace{10mm} galaxyA \mapsto samsung,\\
-\hspace{10mm} galaxyJ \mapsto samsung\\
-\hspace{5mm} \}
-\]
-
-
-\newpage
-
-\noindent Consider the following Questions to be done in one sequence where we will make permanent modifications to the contents of $phone$:\\
-
-
-\item What is the result of the expression  $\{ iPhone7, iPhoneX, galaxyA, mate20 \} \ndres phone$ ?\\
-
-
-\noindent  Domain subtraction removes elements from the domain of the relation:\\
-
-
-\[
-\{ iPhone7, iPhoneX, galaxyA, mate20 \} \ndres phone = \\
-
-\hspace{5mm} \{ \\
-\hspace{10mm} galaxyS \mapsto samsung,\\
-\hspace{10mm} galaxyJ \mapsto samsung,\\
-\hspace{10mm} p20 \mapsto huawei\\
-\hspace{5mm} \}
-
-\]
-
-\noindent Note that for a modification to phone, we need to write
-
-
-\[ phone' = \{ iPhone7, iPhoneX, galaxyA,mate20  \} \ndres phone \]
-
-
-\noindent which reads as: ``The new value of phone is assigned the value of the evaluation of
-the expression on the right-hand-side.''
-
-
-
-\item What is the result of the expression  $phone \nrres \{ huawei \}$ ?\\
-
-
-\noindent  Range subtraction removes elements from the codomain of the relation:\\
-
-
-\[
-phone \nrres \{ huawei\} = \\
-
-\hspace{5mm} \{ \\
-\hspace{10mm} galaxyS \mapsto samsung,\\
-\hspace{10mm} galaxyJ \mapsto samsung\\
-\hspace{5mm} \}
-
-\]
-
-
-\noindent Assume now that we did
-
-\[ phone' = phone \nrres \{ huawei\} \]
-
-
-\noindent and as a result, the new value of $phone$ will be
-
-\[
-phone = \\
-
-\hspace{5mm} \{ \\
-\hspace{10mm} galaxyS \mapsto samsung,\\
-\hspace{10mm} galaxyJ \mapsto samsung\\
-\hspace{5mm} \}
-
-\]
-
-
-\ \\
-
-
-\item What is the result of $phone \oplus \{ iPhoneXSMax \mapsto apple \}$? \\
-
-
-\noindent Relational overriding can model database updates.
-
-\[
-phone \oplus \{ iPhoneXSMax \mapsto apple \} = \\
-\hspace{5mm} \{\\
-\hspace{10mm} iPhoneXSMax \mapsto apple, \\
-\hspace{10mm} galaxyS \mapsto samsung, \\
-\hspace{10mm} galaxyJ \mapsto samsung \\
-\hspace{5mm} \}
-\]
-
-\noindent Note that for a modification to $phone$, we need to write
-
-\[ phone' = phone \oplus \{ iPhoneXSMax \mapsto apple \} \]
-
-\end{enumerate}
-
-
-
-\item Consider the sets
-
+\pagenumbering{arabic}
+							    
+\section*{PROBLEM 1: Propositional logic (5 pts)}
+
+
+You are shown a set of four cards placed on a table, each of which has a \textbf{number} on one
+side and a \textbf{color} on the other side. The visible faces of the cards show the numbers \textbf{9} and
+\textbf{11}, and the colors \textbf{blue}, and \textbf{yellow}.\\
+										
+Which card(s) must you turn over in order to test the truth of the proposition that “\textit{If
+the face of a card is \textbf{blue}, then it has a \textbf{prime} number on the other side}”? Explain your
+reasoning by deciding for \underline{each} card whether or not it should be turned over and why.\\
+\textbf{Solution}: 
+\\
+We're trying to prove the proposition: $$p \rightarrow q$$
+
+\textbf{Where:} 
 \begin{itemize}
-\item $Phone = \{ Samsung, Huawei, Apple, Sony, Motorola, HTC \}$, and
-\item  $Favorite = \{ Sony, HTC \}$.
-\end{itemize}
-
-\noindent Answer the following questions:
-
-\begin{enumerate}
-
-\item How do we interpret the expression $Favorite : \mathbb{P} Phone$?
-
-\item Is $\mathbb{P} Phone$ a legitimate type?
-
-\item What is the nature of the variable in $Favorite : \mathbb{P} Phone$? (i.e. atomic or composite?)
-
-\item Is $Apple \in \mathbb{P} Phone$?
-
-\item Is $\{ Apple \} \in \mathbb{P} Phone$?
-
-\item Is $\{ \{ \} \} \in \mathbb{P} Phone$?
-
-\item Is $\{ \} \in \mathbb{P} Phone$?
-
-\item If we define variable $Favorite : \mathbb{P} Phone$, is $\{ \}$ a legitimate value for variable $Favorite$?
-
-\item Is $Favorite \in \mathbb{P} Phone$?
-
-\item Is $Favorite \subset \mathbb{P} Phone$?
-
-\end{enumerate}
-
-\noindent \underline{Solution}:
-
-\begin{enumerate}
-
-\item How do we interpret the expression $Favorite : \mathbb{P} Phone$? \underline{Answer}: This is  interpreted as ``The variable $Favorite$ can assume any value supported by the powerset of $Phone$.
-
-\item Is $\mathbb{P} Phone$ a legitimate type? \textbf{Yes.}
-
-\item What is the nature of the variable in $Favorite : \mathbb{P} Phone$? \underline{Answer}: Variable $Favorite$ is a \textbf{set}.
-
-\item Is $Apple \in \mathbb{P} Phone$? \textbf{No}.
-
-\item Is $\{ Apple \} \in \mathbb{P} Phone$?  \textbf{Yes}.
-
-\item Is $\{ \{ \} \} \in \mathbb{P} Phone$? \textbf{No}.
-
-\item Is $\{ \} \in \mathbb{P} Phone$? \textbf{Yes}.
-
-\item If we define variable $favorite : \mathbb{P} Phone$, is $\{ \}$ a legitimate value for variable $Favorite$? \textbf{Yes}.
-
-\item Is $Favorite \in \mathbb{P} Phone$? \textbf{Yes}.
-
-\item Is $Favorite \subset \mathbb{P} Phone$? \textbf{No}.
-
-\end{enumerate}
-
-
-
-
-
-
-
-
-
-
-\item Consider the following relation:
-
-\[ laptops : Model \leftrightarrow Brand \]
-
-\noindent where
-
-\[
-laptops = \\
-\hspace{5mm} \{ \\
-\hspace{10mm} legion5 \mapsto lenovo,\\
-\hspace{10mm} macbookair \mapsto apple,\\
-\hspace{10mm} xps15 \mapsto dell,\\
-\hspace{10mm} spectre \mapsto hp,\\
-\hspace{10mm} xps13 \mapsto dell,\\
-\hspace{10mm} swift3 \mapsto acer,\\
-\hspace{10mm} macbookpro \mapsto apple,\\
-\hspace{10mm} dragonfly \mapsto hp,\\
-\hspace{10mm} envyx360 \mapsto hp\\
-\hspace{5mm} \}
-\]
-
-\begin{enumerate}
-
-\item What is the domain and the range of the relation?\\
-
-\noindent \underline{Answer}:
-
-\begin{itemize}
-\item The domain is defined as:  % \textbf{\underline{Marking:  0.5 pt}}
-\[
-\dom laptops = \\
-\hspace{5mm} \{ \\
-\hspace{10mm} legion5,\\
-\hspace{10mm} macbookair,\\
-\hspace{10mm} xps15,\\
-\hspace{10mm} spectre,\\
-\hspace{10mm} xps13,\\
-\hspace{10mm} swift3,\\
-\hspace{10mm} macbookpro,\\
-\hspace{10mm} dragonfly,\\
-\hspace{10mm} envyx360\\
-\hspace{5mm} \}
-\]
-
-
-\item The range is defined as:  $\ran~laptops = \{ lenovo, apple, dell, hp, acer \}$.
-
-
+	\item $p$ represents the proposition that the card is blue, and
+	\item $q$ represents the proposition that the other side of the card has a prime number on its face.
 \end{itemize}
 
 
-\item What is the result of the expression
-
-\[ \{ xps15, xps13, swift3, envyx360 \}  \lhd laptops \]
-
-\noindent What is the meaning of operator $\lhd$ and where would you deploy such operator in the context of a database management system?
-
-\newpage
-
-\noindent \underline{Answer}:
-
-\noindent The result is 
-
-\[ \{ xps15, xps13, swift3, envyx360 \}  \lhd laptops = \\
-\hspace{5mm} \{ \\
-\hspace{10mm} xps15 \mapsto dell,\\
-\hspace{10mm} xps13 \mapsto dell,\\
-\hspace{10mm} swift3 \mapsto acer,\\
-\hspace{10mm} envyx360 \mapsto hp\\
-\hspace{5mm} \}
-\]
-
-\noindent Domain restriction selects pairs based on their first element. We deploy such operators to model database queries. 
-
-
-\item What is the result of the expression
-
-\[ laptops \rhd \{ lenovo, hp \} \]
-
-\noindent What is the meaning of operator $\rhd$ and where would you deploy such operator in the context of a database management system?
-
-\noindent \underline{Answer}:
-
-\noindent The result is 
-
-
-\[ laptops \rhd \{ lenovo, hp \} = \\
-\hspace{5mm} \{ \\
-\hspace{10mm} legion5 \mapsto lenovo,\\
-\hspace{10mm} spectre \mapsto hp,\\
-\hspace{10mm} dragonfly \mapsto hp,\\
-\hspace{10mm} envyx360 \mapsto hp\\
-\hspace{5mm} \}
-\]
-
-\noindent Range restriction selects pairs based on their second element. We deploy such operators to model database queries. 
-
-
-\item What is the result of the expression
-
-\[ \{ legion5, xps15, xps13, dragonfly \} \ndres laptops \]
-
-\noindent What is the meaning of operator $\ndres$ and where would you deploy such operator in the context of a database management system?
-
-\noindent \underline{Answer}:
-
-\noindent \noindent The result is 
-
-\[ \{ legion5, xps15, xps13, dragonfly \} \ndres laptops = \\
-\hspace{5mm} \{ \\
-\hspace{10mm} macbookair \mapsto apple,\\
-\hspace{10mm} spectre \mapsto hp,\\
-\hspace{10mm} swift3 \mapsto acer,\\
-\hspace{10mm} macbookpro \mapsto apple,\\
-\hspace{10mm} envyx360 \mapsto hp\\
-\hspace{5mm} \}
-\]
-
-\noindent  Domain subtraction removes elements from the domain of the relation. We deploy such operation to model deletion of records. 
-
-
-\item What is the result of the expression
-
-\[ laptops \nrres \{ apple, dell, hp \} \]
-
-\noindent What is the meaning of operator $\nrres$ and where would you deploy such operator in the context of a database management system?
-
-\newpage
-
-\noindent \underline{Answer}:
-
-
-\noindent \noindent The result is 
-
-\[
-laptops \nrres \{ apple, dell, hp \} = \\
-\hspace{5mm} \{ \\
-\hspace{10mm} legion5 \mapsto lenovo,\\
-\hspace{10mm} swift3 \mapsto acer\\
-\hspace{5mm} \}
-\]
- 
- 
-\noindent  Range subtraction removes elements from the codomain of the relation. We deploy such operation to model database updates (deletion of records). % \textbf{\underline{Marking:  1.5 pts}}
-
-
-
-\item Consider the following expression
-
-\[ laptops \oplus \{ ideapad \mapsto lenovo \} \]
-
-
 \begin{enumerate}
-\item What is the result of the expression?
-
-\item What is the meaning of operator $\oplus$ and where would you deploy such operator in the context of a database management system?
-
-\item Does the result of the expression have a permanent effect on the database (relation)? If not, describe in detail how would you ensure a permanent effect. 
-
+	\item \textbf{Blue Card:} You \textbf{should} flip this card to prove the proposition. We can apply modus ponens to the proposition to prove it. This would show that if the card is blue, then the other side has a prime number. 
+	\[
+	\frac{
+	\begin{array}{c}
+		p \rightarrow q \\
+		p \\
+	\end{array}
+	}{
+	\begin{array}{c}
+		\therefore q
+	\end{array}
+	}
+	\]
+	\item \textbf{9 Card:} You \textbf{should} flip this card to prove the proposition. We can apply modus tollens to the proposition to prove it. This would show that if the other side of the card is not a prime number, then the card is not blue.
+	\[
+		\frac{
+		\begin{array}{c}
+			p \rightarrow q \\
+			\neg q \\
+		\end{array}
+		}{
+		\begin{array}{c}
+			\therefore \neg p
+		\end{array}
+		}
+		\]
+	\item \textbf{Yellow Card:} You \textbf{should not} flip this card to prove the proposition. The proposition in question is only concerned with the blue cards. It makes no assertion about yellow cards. Flipping this card would fall under the category of affirming the consequent, which is not a valid way to prove the proposition.
+	\item \textbf{11 Card:} You \textbf{should not} flip this card to prove the proposition. The proposition makes no claim that cards with prime numbers on them must have blue on the other side. This would fall under the category of denying the antecedent which is a logical fallacy.
 \end{enumerate}
 
-\newpage
+\pagebreak
 
-\noindent \underline{Answer}:
+\section*{PROBLEM 2: Predicate logic (14 pts)}
+												
+	\textbf{Part 1} (8 pts)\\
+	Consider types \textit{Object}, and the binary relation Orbits over the domain of all celestial objects,
+	which is codified by clause \texttt{object/1} in Prolog (available in \texttt{solar.pl}):
 
+	\begin{enumerate}
+		\item  (2 pts) Construct a formula in predicate logic to define a planet, where planet is defined
+		as an object whose mass is greater than or equal to $0.33 \times 10^{24}KG$, and which it orbits around the sun. For all practical purposes, you may ignore the $10^{24}KG$ factor.
 
-\begin{enumerate}
-\item  The result is 
+		\textbf{Solution:}
+		\begin{itemize}
+			\item Let $M(x)$ be that the mass of object $x$ greater than or equal to $0.33 \times 10^{24}KG$.
+			\item Let $O(x, y)$ be that $x$ orbits around $y$.
+			\item Let $P(x)$ be that $x$ is a planet.
+		\end{itemize}
 
-\[ laptops \oplus \{ ideapad \mapsto lenovo \} = \\
-\hspace{5mm} \{ \\
-\hspace{10mm} ideapad \mapsto lenovo,\\
-\hspace{10mm} legion5 \mapsto lenovo,\\
-\hspace{10mm} macbookair \mapsto apple,\\
-\hspace{10mm} xps15 \mapsto dell,\\
-\hspace{10mm} spectre \mapsto hp,\\
-\hspace{10mm} xps13 \mapsto dell,\\
-\hspace{10mm} swift3 \mapsto acer,\\
-\hspace{10mm} macbookpro \mapsto apple,\\
-\hspace{10mm} dragonfly \mapsto hp,\\
-\hspace{10mm} envyx360 \mapsto hp\\
-\hspace{5mm} \}
-\]
+		The formula to define a planet is: $$P(x) \equiv M(x) \land O(x, sun)$$
 
-\item Relational overriding can model database updates (addition of records).
+		Use the formula for Planet to construct a formula that defines the binary relation
+		is satellite of in terms of the binary relation Orbits. A satellite is an object that
+		orbits around a planet.
+		
+		\textbf{Solution:}
+		\begin{itemize}
+			\item Let $S(x, y)$ mean that $x$ is a satellite of $y$.
+			\item Let $O(x, y)$ be that $x$ orbits around $y$.
+			\item Let $P(x)$ be that $x$ is a planet.
+		\end{itemize}
+		$$S(x, y) \equiv O(x, y) \land P(y) $$
 
+		\item (3 pts) (PROGRAMMING) Map your formulas to Prolog rules is planet/1, and is satellite of/2, and demonstrate how it works by executing both ground- and non-ground queries. Identify the type of each query.
+		\textbf{Solution}:
+		Here are the translated prologue rules:
+		\begin{enumerate}
+			\item \textbf{is\_planet/1}
+			\begin{lstlisting}[language=Prolog]
+planet(X) :- orbits(X, sun), mass(X, M), M >= 0.33.
+			\end{lstlisting}
+			\item \textbf{is\_satellite\_of/2}
+			\begin{lstlisting}[language=Prolog]
+is_satellite_of(X, Y) :- is_planet(Y), orbits(X, Y).		
+			\end{lstlisting}
+		\end{enumerate}
 
-\item The expression does not have a permanent effect on the database (relation). To ensure a permanent effect on the relation, we need to define an assignment statement
-
-\[ laptops' = laptops \oplus \{ ideapad \mapsto lenovo \} \]
-
-\noindent which reads ``The value of variable (relation) $laptops$ is assigned the result of the expression on the right-hand-side of the assignment statement.''
-
-\end{enumerate}
-\end{enumerate}
-
-\newpage
-
-\item You can produce a figure using any drawing package and save it as an image e.g. \texttt{.png}.  The image file can then be embedded in your \texttt{.tex} document as follows:
-
-\begin{figure}[h!]
-	\centering
-	\includegraphics[width=0.6\textwidth]{lists.png}
-\end{figure}
-
-
-
-
-
-
-
-
-
-
-
-\end{enumerate}
-
-\end{spacing}
-
+		\textbf{List of example queries:}
+		\begin{itemize}
+			\item Query \texttt{?- is\_planet(pluto).}
+			\begin{itemize}
+				\item Type: Ground Query
+				\item Result: \texttt{false}
+			\end{itemize}
+			\item Query \texttt{?- is\_planet(mars).}
+			\begin{itemize}
+				\item Type: Ground Query
+				\item Result: \texttt{true}
+			\end{itemize}
+			\item Query \texttt{?- is\_planet(P).}
+			\begin{itemize}
+				\item Type: Non-Ground Query
+				\item Result: \texttt{\newline P = mercury \newline P = venus  \newline P = earth \newline P = mars \newline P = jupiter \newline P = saturn \newline P = uranus \newline P = neptune \newline false}
+			\end{itemize}
+			\item Query \texttt{?- is\_satellite\_of(moon, Planet).}
+			\begin{itemize}
+				\item Type: Non-Ground Query
+				\item Result: \texttt{\newline Planet = earth \newline false}
+			\end{itemize}
+			\item Query \texttt{?- is\_satellite\_of(S, mars).}
+			\begin{itemize}
+				\item Type: Non-Ground Query
+				\item Result: \texttt{\newline S = deimos \newline S = phobos \newline false}
+			\end{itemize}
+		\end{itemize}
+		
+		\begin{figure}[h]
+			\centering
+			\includegraphics[width=0.7\textwidth]{./static/prolog_queries.png}
+			\caption{Screenshot of CLI Outputs}
+		\end{figure}
+		\item  (3 pts) (PROGRAMMING) Construct a Prolog rule obtain\_all\_satellites/2 that succeeds by returning a collection of all satellites of a given planet.
+		
+		\textbf{Solution:}
+		
+		\textbf{obtain\_all\_satellites/2}
+		\begin{lstlisting}[language=Prolog, breaklines=true]
+obtain_all_satellites(Planet, Satellites) :- findall(Satellite, is_satellite_of(Satellite, Planet), Satellites).
+		\end{lstlisting}
+	\textbf{List of example queries:}
+	\begin{figure}[h]
+		\centering
+		\includegraphics[width=0.7\textwidth]{./static/obtain_all_satellites_query.png}
+		\caption{CLI output of the query \texttt{?- obtain\_all\_satellites(earth, Satellites).}}
+	\end{figure}
+	\end{enumerate}
+	
+	\noindent \textbf{Part 2: Categorical propositions} (2 pts)\\
+	In the domain of all integers, let $number(x)$ denote the statement “$x$ is a number”, and $composite(x)$ denote the statement “$x$ is a composite.” Formalize the following sentences and indicate their corresponding formal type:\\
+							
+	\textbf{Solution}:
+	\begin{enumerate}
+		\item "Some numbers are not composite."
+		      \begin{itemize}
+		      	\item Formalization:
+		      	\item Corresponding Formal Type:
+		      \end{itemize}
+		\item "No numbers are prime."
+		      \begin{itemize}
+				\item Formalization:
+				\item Corresponding Formal Type:
+		      \end{itemize}
+		\item "Some numbers are not prime."
+		      \begin{itemize}
+				\item Formalization:
+				\item Corresponding Formal Type:
+		      \end{itemize}
+		\item "All numbers are prime."
+		      \begin{itemize}
+				\item Formalization:
+				\item Corresponding Formal Type:
+		      \end{itemize}
+	\end{enumerate}
+\end{spacing} 
 \end{document}

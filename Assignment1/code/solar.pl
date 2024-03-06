@@ -13,7 +13,7 @@ object(deimos).
 object(phobos).
 object(arche).
 object(callisto).
-object(europa).
+object(europa). 
 object(io).
 object(themisto).
 object(atlas).
@@ -62,3 +62,8 @@ orbits(despina, neptune).
 orbits(galatea, neptune).
 orbits(larissa, neptune).
 orbits(thalassa, neptune).
+
+is_planet(X) :- orbits(X, sun), mass(X, M), M >= 0.33.
+is_satellite_of(X, Y) :- is_planet(Y), orbits(X, Y).
+
+obtain_all_satellites(Planet, Satellites) :- findall(Satellite, is_satellite_of(Satellite, Planet), Satellites).
