@@ -373,9 +373,9 @@ all_satellites(Planet, Satellites) :- findall(Satellite, is_satellite_of(Satelli
 
 		      	\begin{tikzpicture}
 		      		\draw (1,0) -- (5,0);
-		      		\filldraw (1,0) circle (3pt) node[below=3pt] {\shortstack{$\phi$ \\ $\tau$}} node[above=3pt] {i + 1};
-		      		\filldraw (3,0) circle (3pt) node[below=3pt] {\shortstack{$\omega$ \\ $\rho$}} node[above=3pt] {i + 2};
-		      		\filldraw (5,0) circle (3pt) node[below=3pt] {\shortstack{$\omega$ \\ $\tau$ \\ $\rho$ \\ $\neg \tau$}} node[above=3pt] {i + 3};
+		      		\filldraw (1,0) circle (3pt) node[below=3pt] {\shortstack{$\phi$ \\ $\tau$}} node[above=3pt] {i};
+		      		\filldraw (3,0) circle (3pt) node[below=3pt] {\shortstack{$\omega$ \\ $\rho$}} node[above=3pt] {i + 1};
+		      		\filldraw (5,0) circle (3pt) node[below=3pt] {\shortstack{$\omega$ \\ $\tau$ \\ $\rho$ \\ $\neg \tau$}} node[above=3pt] {i + 2};
 		      		  
 		      		\draw[dashed, ->] (5,0) -- (7,0);
 		      	\end{tikzpicture}t
@@ -383,15 +383,15 @@ all_satellites(Planet, Satellites) :- findall(Satellite, is_satellite_of(Satelli
 		      	\begin{tikzpicture}
 		      		\draw (1,0) -- (11,0);
 		      		   
-		      		\filldraw (1,0) circle (3pt) node[below=3pt] {\shortstack{$\psi$ \\ $\tau$}} node[above=3pt] {i + 1};
+		      		\filldraw (1,0) circle (3pt) node[below=3pt] {\shortstack{$\psi$ \\ $\tau$}} node[above=3pt] {i};
 		      		\filldraw (3,0) circle (3pt) node[below=3pt] {\shortstack{$\rho$}}
-		      		node[above=3pt] {i + 2};
+		      		node[above=3pt] {i + 1};
 		      		\filldraw (5,0) circle (3pt) node[below=3pt] {\shortstack{$\tau$}}
-		      		node[above=3pt] {i + 3};
+		      		node[above=3pt] {i + 2};
 		      		\filldraw (7,0) circle (3pt) node[below=3pt] {\shortstack{$\rho$}}
-		      		node[above=3pt] {i + 4};
+		      		node[above=3pt] {i + 3};
 		      		\filldraw (9,0) circle (3pt) node[below=3pt] {\shortstack{$\tau$}}
-		      		node[above=3pt] {i + 5};
+		      		node[above=3pt] {i + 4};
 
 		      		\draw[dotted] (6,-1) rectangle (10,1);
 
@@ -401,15 +401,15 @@ all_satellites(Planet, Satellites) :- findall(Satellite, is_satellite_of(Satelli
 		      	\begin{tikzpicture}
 		      		\draw (1,0) -- (9,0);
 
-		      		\filldraw (1,0) circle (3pt) node[below=3pt] {\shortstack{$\tau$}} node[above=3pt] {i + 1};
+		      		\filldraw (1,0) circle (3pt) node[below=3pt] {\shortstack{$\tau$}} node[above=3pt] {i};
 		      		\filldraw (3,0) circle (3pt) node[below=3pt] {}
-		      		node[above=3pt] {i + 2};
+		      		node[above=3pt] {i + 1};
 		      		\filldraw (5,0) circle (3pt) node[below=3pt] {\shortstack{$\tau$}}
-		      		node[above=3pt] {i + 3};
+		      		node[above=3pt] {i + 2};
 		      		\filldraw (7,0) circle (3pt) node[below=3pt] {\shortstack{$\tau$}}
-		      		node[above=3pt] {i + 4};
+		      		node[above=3pt] {i + 3};
 		      		\filldraw (9,0) circle (3pt) node[below=3pt] {\shortstack{$\tau$}}
-		      		node[above=3pt] {i + 5};
+		      		node[above=3pt] {i + 4};
 
 		      		\draw[dotted] (8,-1) rectangle (10,1);
 
