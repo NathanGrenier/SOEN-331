@@ -45,8 +45,8 @@
 \title{SOEN 331 - S: Formal Methods\\for Software Engineering\\
 \ \\
 Assignment 1}
-\author{Nathan Grenier, Nirav Patel}
-\date{\today}
+\author{Nirav Patel, Nathan Grenier}
+\date{March 7, 2024}
 \begin{document}
 \begin{spacing}{1.5}
 	\maketitle
@@ -178,7 +178,7 @@ is_satellite_of(Satellite, Planet) :- is_planet(Planet), orbits(Satellite, Plane
 		      	      	\item Result: \texttt{`true`}\\
 		      	      \end{itemize}
 		      \end{enumerate}
-		      		      		      		      		      		      		      		      		      
+
 		      \textbf{Non-Ground Queries}:
 		      \begin{enumerate}
 		      	 	
@@ -216,20 +216,34 @@ is_satellite_of(Satellite, Planet) :- is_planet(Planet), orbits(Satellite, Plane
                             Planet = earth;\\
                             false\\}
                     \end{itemize}
+
+            \begin{figure}[htp]
+        		\centering
+        		\includegraphics[width=.6\textwidth]{static/interaction-isPlanet-isSatelliteOf.PNG}
+        		\caption{Interaction for Ground Queries}
+        		\label{fig:figure}
+        	\end{figure}
+
+            \begin{figure}[htp]
+                \centering
+                \includegraphics[width=.6\textwidth]{static/interaction-nonGroundPlanetSatellite.PNG}
+                \caption{Interaction for Non-Ground Queries}
+                \label{fig:figure}
+            \end{figure}
 		      	              
 		      \end{enumerate}
-		      		      		      		      		      		      		      		      
+        \newpage
 		\item
 		      (3 pts) (\uline{\textbf{PROGRAMMING}}) Construct a Prolog rule \texttt{obtain\_all\_satellites/2}
 		      that succeeds by returning a collection of all satellites of a given planet.\\
-		      		      		      		      		      		      		      		      
+
 		      \textbf{Solution}: We can define a rule named \texttt{all\_satellites/2} that collects all the satellites of a specified planet. The following describes an example of how the rule can be implemented:\\
-		      		      		      		      		      		      		      		      
+
 		      \begin{lstlisting}
 % Rule to obtain all satellites of a given planet
 all_satellites(Planet, Satellites) :- findall(Satellite, is_satellite_of(Satellite, Planet), Satellites).
 		      \end{lstlisting}
-		      		      		      		      		      		      		      		      
+
 		      In this rule:
 		      \begin{itemize}
 		      	\item \texttt{Planet} is the input parameter representing the planet for which we want to           find its satellites.
@@ -238,16 +252,24 @@ all_satellites(Planet, Satellites) :- findall(Satellite, is_satellite_of(Satelli
 		      	       
 		      	\item \texttt{findall/3} is used to collect all solutions for \texttt{Satellite} that satisfy the condition \texttt{is\_satellite\_of(Satellite, Planet)}.
 		      \end{itemize}
-		      		      		      		      		      		      		      		      
+
 		      We can test this rule using the following query:
-		      		      		      		      		      		      		      		      
+
 		      \textbf{Query}:\\
 		      \texttt{?- all\_satellites(jupiter, Satellites).}
-		      		      		      		      		      		      		      		      
+
 		      \textbf{Result}:\\
 		      \texttt{Satellites = [arche, callisto, europa, io, themisto]}\\
+
+            \begin{figure}[htp]
+                \centering
+                \includegraphics{static/interaction-allSatellites.PNG}
+                \caption{Interaction for Non-Ground Queries}
+                \label{fig:figure}
+            \end{figure}
 	\end{enumerate}
-								
+
+    \newpage
 	\noindent \textbf{Part 2: Categorical propositions} (2 pts)\\
 	In the domain of all integers, let $number(x)$ denote the statement “$x$ is a number”, and $composite(x)$ denote the statement “$x$ is a composite.” Formalize the following sentences and indicate their corresponding formal type.\\
 							
@@ -255,33 +277,33 @@ all_satellites(Planet, Satellites) :- findall(Satellite, is_satellite_of(Satelli
 								
 	\begin{enumerate}
 		\item "Some numbers are not composite."
-		      		      		      		      		      		      		      
+
 		      \begin{itemize}
 		      	\item Formalization: $\exists x(number(x) \land \neg composite(x))$
 		      	\item Corresponding Formal Type: O (Particular Negative)
 		      \end{itemize}
-		      		      		      		      		      		      		        
+
 		\item "No numbers are prime."
-		      		      		      		      		      		      		      
+
 		      \begin{itemize}
 		      	\item Formalization: $\forall x (number(x) \rightarrow composite(x))$
 		      	\item Corresponding Formal Type: A (Universal Affirmative)
 		      \end{itemize}
-		      		      		      		      		      		      		        
+
 		\item "Some numbers are not prime."
-		      		      		      		      		      		      		      
+
 		      \begin{itemize}
 		      	\item Formalization: $\exists x(number(x) \land composite(x))$
 		      	\item Corresponding Formal Type: I (Particular Affirmative)
 		      \end{itemize}
-		      		      		      		      		      		      		        
+
 		\item "All numbers are prime."
-		      		      		      		      		      		      		      
+
 		      \begin{itemize}
 		      	\item Formalization: $\forall x(number(x) \rightarrow \neg composite(x))$
-		      	\item Corresponding Formal Type: E (Universal Negative) \\ \\ \\ \\
+		      	\item Corresponding Formal Type: E (Universal Negative) \\
 		      \end{itemize}
-		      		      		      		      		      		      		              
+
 	\end{enumerate}
 							
 	\noindent \textbf{Part 3: Categorical propositions} (4 pts)\\
@@ -291,31 +313,30 @@ all_satellites(Planet, Satellites) :- findall(Satellite, is_satellite_of(Satelli
 							
 	\begin{enumerate}
 		\item Prove formally that negating $A$ is logically equivalent to obtaining $O$ (and vice versa).
-		      		      		      		      		      		      		      
+
 		      \textbf{Solution}: We first determine the negation of $A$ ($\neg A$):
-		      		      		      		      		      		      		      
+
 		      $$\neg A = \neg (\forall s : S | s \in P ) = \exists s : S | s \notin P$$
-		      		      		      		      		      		      		      
+
 		      The equivalent expression obtained from determining the negation of $A$ is logically equivalent to the formulation of $O$. Similarly, we can obtain an $A$-type proposition using the negation of $O$:
-		      		      		      		      		      		      		      
+
 		      $$\neg (\exists s : S | s \notin P) = \forall s : S | s \in P$$
-		      		      		      		      		      		      		      
+
 		      We have therefore proven that negating $A$ is logically equivalent to obtaining $O$, and vice-versa.
-		      		      		      		      		      		      		              
+
 		\item Prove formally that negating E is logically equivalent to obtaining $I$ (and vice versa).
-		      		      		      		      		      		      		      
+
 		      \textbf{Solution}: We first determine the negation of $E$ ($\neg E$):
-		      		      		      		      		      		      		      
+
 		      $$\neg (\forall s : S | s \notin P)=\exists s : S | s \in P$$
-		      		      		      		      		      		      		      
-		      The equivalent expression obtained from determining the negation of $E$ is logically equivalent to the formulation of $I$. Similarly, we can obtain an $E$-type proposition using the negation of $I$:
-		      		      		      		      		      		      		      
+
+            The equivalent expression obtained from determining the negation of $E$ is logically equivalent to the formulation of $I$. Similarly, we can obtain an $E$-type proposition using the negation of $I$:
+
 		      $$\neg (\exists s : S | s \in P) = \forall s : S | s \notin P$$
-		      		      		      		      		      		      		      
+
 		      We have therefore proven that negating $E$ is logically equivalent to obtaining $I$, and vice-versa.
-		      		      		      		      		      		      		      
+
 	\end{enumerate}
-								    
 							    
 	\newpage
 							    
@@ -419,38 +440,38 @@ all_satellites(Planet, Satellites) :- findall(Satellite, is_satellite_of(Satelli
 		      \end{center}
 
 		\item (7 pts) Make observations on the visualization by specifying exact conditions about termination, non-termination and consistency (or lack thereof), if any exist.\\
-		      		      		      		      		      		      
+
 		      \textbf{Solution}: In regards to the first three models, we can observe that they are terminating. In other words, they can be described through the following expressions:
-		      		      		      		      		      		      
+
 		      $$\textbf{1}: \langle (\phi \land \chi), (\omega), (\omega), (\omega \land \pi) \rangle$$
-		      		      		      		      		      		      
+
 		      $$\textbf{2}: \langle (\psi \land \chi), (\omega),(\omega),(\omega \land \pi) \rangle$$
-		      		      		      		      		      		      
+
 		      $$\textbf{3}: \langle (\chi), (\omega),(\omega),(\omega \land \pi) \rangle $$
-		      		      		      		      		      		      
+
 		      In regards to the fourth model, given the initial conditions $(\phi \land \tau)$, there is a contradiction between two specific propositions, namely $(\tau \rightarrow \bigcirc^2(\tau \mathcal{W} \rho))$ and $(\rho \land \bigcirc \tau \rightarrow \bigcirc^2 \rho)$ which cause the time $i+3$ to contain the atomic proposition $\tau$ in both its true and false form, which contradicts the argument and falsifies this specific model.\\
-		      		      		      		      		      		                      
+
 		      Finally, for the remaining two models, we can determine that the last two steps of the visual figure are infinitely repeating, therefore representing non-terminating models. Specifically, the global set of propositions contained in the argument does not possess any conditions enabling the last three models to terminate.\\
-		      		      		      		      		      		      
+
 		      In the last two models, the set of repeating propositions are as follows:
-		      		      		      		      		      		      
+
 		      $$\textbf{5}: (\tau), (\tau \land \rho) \text{ if beginning with } (\psi \land \tau)$$
-		      		      		      		      		      		      
+
 		      $$\textbf{6}: (\tau) \text{ if beginning with } (\tau)$$
-		      		      		      		      		      		      		              
+
 	\end{enumerate}
 						
 	\textbf{Part 2} (6 pts)
 						
 	\begin{enumerate}
 		\item (2 pts) Formalize and visualize the following requirement: "If none of $\phi$ or $\psi$ are invariants, then starting from time $=i+2$, $\chi$ will eventually become true and it will remain true up to and including the moment $\tau$ first becomes true. Note that there exists no guarantee that $\tau$ ever becomes true."\\
-		      		      		      		      		      		      
+
 		      \textbf{Solution}: We can express it as follows:
-		      		      		      		      		      		      
+
 		      $$\neg(\square \phi \land \square \psi)\rightarrow (\bigcirc^2 (\Diamond \chi \land (\tau R \chi)))$$
-		      		      		      		      		      		      
+
 		      and, among the many ways to visualize the requirement, we can discuss the different variations using the following two models:
-		      		      		      		      		      		              
+
 		      \begin{center}
 		      	\begin{tikzpicture}
 		      		\draw (1,0) -- (9,0);
@@ -463,7 +484,7 @@ all_satellites(Planet, Satellites) :- findall(Satellite, is_satellite_of(Satelli
 
 		      		\draw[dashed, ->] (9,0) -- (11,0);
 		      	\end{tikzpicture}
-		      			      			      			      			      			      	
+
 		      	\begin{tikzpicture}
 		      		\draw (1,0) -- (11,0);
 
@@ -503,16 +524,15 @@ all_satellites(Planet, Satellites) :- findall(Satellite, is_satellite_of(Satelli
 		      		\draw[dashed, ->] (11,0) -- (13,0);
 		      	\end{tikzpicture}
 		      \end{center}
-		      		      		      		      		      		      
+
 		      It should be noted that the requirement "none of $\phi$ or $\psi$ are invariants" introduces the idea that both atomic propositions $\phi$ and $\psi$ can be true at some point a finite number of times, and can also be false in other times as well.\\
-		      		      		      		      		      		              
+
 		      Additionally, with the lack of guarantee that the atomic proposition $\tau$ will ever become true, we can visualize the requirement as having the proposition become true at some point in time or simply never become true, letting the atomic proposition $\chi$ remain true.
-		      		      		      		      		      		      
+
 		\item (2 pts) Describe then visualize the following requirement: $(\neg \alpha \lor \neg \beta) \rightarrow \bigcirc \diamond (\gamma \: \mathcal{U} \: \delta)$\\
-		      		      		      		      		      		      
+
 		      \textbf{Solution}: We can describe and visualize the above requirement as follows:
-		      		      		      		      		      		      
-		      		      		      		      		      		              
+
 		      \begin{itemize}
 		      	\item If neither $\alpha$ nor $\beta$ is true, then at the next time instant, there exists a path where $\gamma$ holds until $\delta$ becomes true.
 		      \end{itemize}
@@ -528,7 +548,7 @@ all_satellites(Planet, Satellites) :- findall(Satellite, is_satellite_of(Satelli
 
 		      		\draw[dashed, ->] (7,0) -- (9,0);
 		      	\end{tikzpicture}t
-		      			      			      			      			      			      	
+
 		      	\begin{tikzpicture}
 		      		\draw (1,0) -- (7,0);
 
@@ -539,8 +559,8 @@ all_satellites(Planet, Satellites) :- findall(Satellite, is_satellite_of(Satelli
 
 		      		\draw[dashed, ->] (7,0) -- (9,0);
 		      	\end{tikzpicture}t
-		      			      			      			      			      			      	
-		      	\begin{tikzpicture}
+
+                \begin{tikzpicture}
 		      		\draw (1,0) -- (7,0);
 
 		      		\filldraw (1,0) circle (3pt) node[below=3pt] {\shortstack{$\neg \alpha$ \\ $\beta$}} node[above=3pt] {i};
@@ -551,13 +571,11 @@ all_satellites(Planet, Satellites) :- findall(Satellite, is_satellite_of(Satelli
 		      		\draw[dashed, ->] (7,0) -- (9,0);
 		      	\end{tikzpicture}t
 		      \end{center}
-		      		      		      		      		      		      
-		      		      		      		      		      		      
+
 		\item (2 pts) Describe then visualize the following requirement: $(\bigcirc \tau \land \bigcirc \diamond \square \chi) \rightarrow \bigcirc^2 (\phi \: \mathcal{W} \: \psi )$\\
 		      		      		      		      		      
 		      \textbf{Solution}: We can describe and visualize the above requirement as follows:
-		      		      		      		      		      		      
-		      		      		      		      		      		              
+
 		      \begin{itemize}
 		      	\item  If at the next time instant $\tau$ holds and at some future time there exists a path where $\chi$ is invariant, then two time steps later, $\phi$ will remain true until $\psi$ becomes true. There is no guarantee that $\psi$ will become true.
 		      \end{itemize}
@@ -575,7 +593,7 @@ all_satellites(Planet, Satellites) :- findall(Satellite, is_satellite_of(Satelli
 
 		      		\draw[dashed, ->] (11,0) -- (13,0);
 		      	\end{tikzpicture}
-		      			      			      			      			      	
+
 		      	\begin{tikzpicture}
 		      		\draw (1,0) -- (11,0);
 
@@ -609,9 +627,9 @@ all_satellites(Planet, Satellites) :- findall(Satellite, is_satellite_of(Satelli
 		      		      		      		      
 		      \begin{enumerate}
 		      	\item The expression $Favorites : \mathcal{P} Languages$ signifies that the variable $Favorites$ is associated with the power set of the set "Languages." This means that $Favorites$ can take on values that are subsets of the set of languages provided, including all possible combinations of languages within the set. 
-		      	      		      	      		      	      		      	                      
+
 		      	\item The expression should be interpreted as allowing the variable $Favorites$ to represent any subset of languages from the given set "Languages." It provides flexibility for $Favorites$ to encompass various combinations of programming languages, including individual languages, multiple languages, or even an empty set. 
-		      	      		      	      		      	      		      	                      
+
 		      	\item Legitimate values for the variable $Favorites$ could include any subset of the languages listed in the set "Languages," such as individual languages like Ruby or Python, combinations like {Ruby, Go}, or even the empty set if no language is selected as a favorite.
 		      \end{enumerate}
 		      		      		      		      
@@ -619,7 +637,7 @@ all_satellites(Planet, Satellites) :- findall(Satellite, is_satellite_of(Satelli
 		      		      		      		      
 		      \begin{enumerate}
 		      	\item The expression $Favorites = \mathcal{P} \: Languages$ signifies that the variable $Favorites$ is assigned the value of the power set of the set "Languages." This means that $Favorites$ represents all possible subsets that can be formed from the original set of languages provided. 
-		      	      		      	      		      	      		      	                      
+
 		      	\item Semantically, $Favorites = \mathcal{P} \: Languages$ and $Favorites : \mathcal{P} \: Languages$ are not equivalent. The former indicates that the variable $Favorites$ is set to be equal to the power set of languages, implying a specific assignment of values. On the other hand, the latter notation suggests a relationship or association between $Favorites$ and the power set of languages without explicitly assigning a specific value.\\
 		      \end{enumerate}
 		      		      		      		                  
@@ -639,13 +657,13 @@ all_satellites(Planet, Satellites) :- findall(Satellite, is_satellite_of(Satelli
 		      		      		      		                  
 		      \begin{enumerate}
 		      	\item $\lambda_1 : Languages$
-		      	      		      	      		      	      		      	      
+
 		      	      \textbf{Answer:} This variable declaration $\lambda_1$ signifies that it is associated with the set "Languages." Here, $\lambda_1$ can take on values directly from the set of languages provided. The variable $\lambda_1$ is atomic as it directly refers to individual elements within the set "Languages."\\
-		      	      		      	      		      	      		      	                  
+
 		      	\item $\lambda_2 : \mathcal{P} \: Languages$
-		      	      		      	      		      	      		      	          
+
 		      	      \textbf{Answer:} In contrast, the variable declaration $\lambda_2$ indicates that it is linked to the power set of the set "Languages." This means that $\lambda_2$ can represent any subset that can be formed from the original set of languages. The variable $\lambda_2$ is non-atomic as it encompasses various combinations and subsets of languages rather than individual elements directly from the set.\\
-		      	      		      	      		      	      		      	                  
+
 		      \end{enumerate}
 		      		      		      		      
 		\item (1 pt) In the expression $Library = \{C, Ruby, Go\}$ where the variable is used to hold any collection that can be constructed from $Languages$, what is the \textit{type} of the variable?
@@ -662,11 +680,25 @@ all_satellites(Planet, Satellites) :- findall(Satellite, is_satellite_of(Satelli
 		      	\item \textbf{is-memberp} Returns true if its first argument is found to be a member in the set provided by the second argument. Returns nil (false) otherwise.
 
                     \lstinputlisting[language=Lisp]{code/is-member_4_9.lisp}
-		      	      		      	      		      	      		      	                      
+
+                \begin{figure}[htp]
+            		\centering
+            		\includegraphics[width=.7\textwidth]{static/interaction-isMember.PNG}
+            		\caption{Interaction for Ground Queries}
+            		\label{fig:figure}
+            	\end{figure}
+
 		      	\item \textbf{equal-setsp} Returns true if its two arguments are two identical sets. Returns nil (false) otherwise. You may assume that neither argument (set) contains any redundancies.
 
                     \lstinputlisting[language=Lisp]{code/equal-setsp_4_9.lisp}
-		      	      		      	      		      	      		      	                      
+
+                \begin{figure}[htp]
+            		\centering
+            		\includegraphics[width=.7\textwidth]{static/interaction-equal-setsp.PNG}
+            		\caption{Interaction for Ground Queries}
+            		\label{fig:figure}
+            	\end{figure}
+
 		      \end{itemize}
 		      		      		      		                  
 	\end{enumerate}
@@ -710,6 +742,13 @@ all_satellites(Planet, Satellites) :- findall(Satellite, is_satellite_of(Satelli
 		\item (3 pts) (\textbf{\uline{PROGRAMMING}}) Use Common LISP to define two stacks (\texttt{stack1} and \texttt{stack2} as global variables to hold the collection, and implement functions \texttt{enqueue} and \texttt{dequeue}.
 
             \lstinputlisting[language=Lisp]{code/enqueue-dequeue_5_2.lisp}
+
+            \begin{figure}[htp]
+                \centering
+                \includegraphics[width=.7\textwidth]{static/interaction-enqueue-dequeue.PNG}
+                \caption{Interaction for enqueue/dequeue Functions}
+                \label{fig:figure}
+            \end{figure}
 		      		      		      		              
 		\item (2 pts) (\textbf{\uline{PROGRAMMING}}) Implement operations \textit{head}, \textit{tail} and \textit{cons} in Prolog and demonstrate their usage.
 
@@ -744,6 +783,13 @@ all_satellites(Planet, Satellites) :- findall(Satellite, is_satellite_of(Satelli
 		      	      	\item \textbf{Output:} \texttt{X = [5, 1, 2, 3, 4]} 
 		      	      \end{itemize}
 		      \end{enumerate}
+
+            \begin{figure}[htp]
+                \centering
+                \includegraphics[width=.7\textwidth]{static/interaction-head-tails-cons.PNG}
+                \caption{Interaction for Ground Queries}
+                \label{fig:figure}
+            \end{figure}
 		      		      		      		      
 	\end{enumerate}
 				     
@@ -870,7 +916,9 @@ all_satellites(Planet, Satellites) :- findall(Satellite, is_satellite_of(Satelli
 		      \end{figure}
 		      		        
 	\end{enumerate}
-			    
+
+    \newpage
+    
 	\noindent \textbf{Part 3} (8 pts)
 			
 	\noindent Consider $(V_1, R)$ and $(\mathcal{P}(V_2), \subseteq)$ from Parts 1 and 2 respectively. Assume the following mapping, captured by variable \textit{map}:
@@ -1010,10 +1058,19 @@ all_satellites(Planet, Satellites) :- findall(Satellite, is_satellite_of(Satelli
 		      	      \end{align*}
 		      	                      
 		      \end{enumerate}
-		      		      
-		\item (3 pts) (\uline{\textbf{PROGRAMMING}} Map your definition into a Common LISP function.\\
+
+        \newpage
+        
+		\item (3 pts) (\uline{\textbf{PROGRAMMING}} Map your definition into a Common LISP function.
             
-            \lstinputlisting[language=Lisp]{code/compress_7_4.lisp}	          
+            \lstinputlisting[language=Lisp]{code/compress_7_4.lisp}
+
+            \begin{figure}[htp]
+                \centering
+                \includegraphics[width=.6\textwidth]{static/interaction-compress.PNG}
+                \caption{Interaction for compress Function}
+                \label{fig:figure}
+            \end{figure}
 		      		              
 	\end{enumerate}
 \end{spacing}
