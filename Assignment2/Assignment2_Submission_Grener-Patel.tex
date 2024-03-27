@@ -457,47 +457,36 @@ Department of Computer Science and Software Engineering\\
             \includegraphics{static/airports-2-1.PNG}
             \caption{Output of Question 2 - Part 1}
         \end{figure}
-
+        \newpage
         \item (2 pts) Provide a declaration of variable $monitored$ that holds all airport id's.
         
         \underline{Solution}:
-        $$monitored : \mathcal{P}(AIRPORT)$$ 
-        \begin{verbatim}
-            monitored = {YUL, LCY, LHR, MIL, SFO, SDQ}
-        \end{verbatim}
-
+        $$monitored : AIRPORT$$
+        
         \item (3 pts) What kind of variable is airports? Provide a formal definition together with
         any and all applicable properties.
 
         \underline{Solution}:
         
-        $airports$ is a partial injective function from the set of airport ids to the set of cities. It is defined as follows:
-        $$airports : AIRPORT \pinj CITY$$
-        \begin{schema}{Airports}
-            city : \mathcal{P}(CITY) \\
-            airportId : \mathcal{P}(AIRPORT) \\
-            airports : airportId \pinj city \\
-            \where
-            \forall a_i, a_j : airports \bullet a_i.airportId \neq a_j.airportId \\
-            \forall a_i, a_j : AIRPORT \bullet a_i \neq a_j \implies a_i.airportId \neq a_j.airportId
-        \end{schema}
+        $airports$ is a partial many-to-one function that relates ordered pairs. The domain of these ordered pairs are the set of airport ids included in the type AIRPORT. The range of the ordered sets is the set of cities included in the type CITY. It is defined as follows:
+        $$airports : AIRPORT \pfun CITY$$
 
         \item (3 pts) Describe what data structure you would deploy to model variable airports.
         Note that you may not use a Dictionary. Should this be an ordered or an unordered
         structure? Discuss
 
         \underline{Solution:}
-        A pair of sets, one containing the airports and another the cities.
-        It should be unordered because each airport must have a unique id, and the order of insertion doesn't matter.
+        The AIRPORT should be represented with a set to ensure that there are no duplicate airport ids. The CITY should be represented with a bag due to the need for repeating cities and an unbounded amount of them. The airports variable should be represented as a partial function that maps each airport id to its corresponding city.
+        It should be unordered because the order of insertion doesn't matter.
 
         \item (4 pts) Provide a formal specification of the state of the system in terms of a Z specification schema
         
         \underline{Solution:}
         \begin{schema}{AirportManagement}
-            airports : AIRPORT \pinj CITY \\
             monitored : \mathcal{P}(AIRPORT) \\
+            airports : AIRPORT \pfun CITY \\
             \where
-            \text{dom}(airports) = monitored
+            monitored = \text{dom}(airports) 
         \end{schema}
 
         \item (6 pts) Provide a schema for operation AddAirportOK that adds a new airport to the
@@ -510,7 +499,7 @@ Department of Computer Science and Software Engineering\\
             airport? : AIRPORT \\
             city? : CITY \\
             \where
-            airport? \notin \text{dom}(airports) \\
+            airport? \notin monitored \\
             airports' = airports \cup \{airport? \mapsto city?\} \\
         \end{schema}
         $$MESSAGE ::= ok | error.$$
@@ -519,7 +508,7 @@ Department of Computer Science and Software Engineering\\
             \Xi AirportManagement \\
             response! : MESSAGE \\
             \where
-            airport! = \, 'ok' \\
+            response! = \, 'ok' \\
         \end{schema}
 
         \begin{schema}{AirportAlreadyExists}
@@ -527,10 +516,10 @@ Department of Computer Science and Software Engineering\\
             airport? : AIRPORT \\
             response! : MESSAGE \\
             \where
-            airport? \in \text{dom}(airports) \\
+            airport? \in monitored \\
             response! = \, 'error' \\
         \end{schema}
-        $$AppAirpot \, \hat{=} \, (AddAirportOk \land Success) \oplus AirportAlreadyExists$$
+        $$AddAirport \, \hat{=} \, (AddAirportOk \land Success) \oplus AirportAlreadyExists$$
     \end{enumerate}
 \end{spacing}
 
