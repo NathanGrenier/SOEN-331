@@ -1,5 +1,0 @@
-# Tex compile outputs
-*.aux
-*.log
-*.synctex.gz
-*.out
