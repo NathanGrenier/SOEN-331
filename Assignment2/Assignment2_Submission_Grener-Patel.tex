@@ -427,86 +427,111 @@ Department of Computer Science and Software Engineering\\
 		           
 	\end{enumerate}
 
-    \section*{PROBLEM 2 (10 pts)}
+    \section*{PROBLEM 2 (50 pts)}
 
-    Consider the temperature monitoring system from our lecture notes. In this part, we will extract the specification with a new requirement.
-    \newline \newline
-    \textbf{Operation ReplaceSensor}~~Sensors are physical devices, subjected to deterioration, or other type of damage. We need to provide the ability of the system to replace a sensor with another. For simplicity, let us not plan ("fix", and) reuse them, but permenantly remove them from the system.
+    Consider an airport management system. Each airport has a unique id (e.g. Montreal:YUL).
+    Let us introduce the types AIRPORT and CITY . We also introduce variable airports that
+    contains associations between airport id's and their corresponding host cities. A possible
+    state of the system is shown below:
+    \begin{align*}
+        \text{airports} = \{
+        & \text{YUL} \mapsto \text{Montreal}, \\
+        & \text{LCY} \mapsto \text{London UK}, \\
+        & \text{LHR} \mapsto \text{London UK}, \\
+        & \text{MIL} \mapsto \text{Milan}, \\
+        & \text{SFO} \mapsto \text{San Francisco}, \\
+        & \text{SDQ} \mapsto \text{Santo Domingo} \\
+        \}
+    \end{align*}
 
-    \begin{schema}{ReplaceSensorOK}
-        \Delta TempMonitor \\
-        oldSensor?, newSensor? : SENSOR\_TYPE \\
-        \where
-        oldSensor? \in deployed \\
-        newSensor? \notin deployed \\
-        newSensor? \neq oldSensor? \\
-        newSensor? \notin \dom map \\
-        deployed' = (\{oldSensor?\} \dsub deployed) \cup \{newSensor?\} \\
-        map' = \{oldSensor?\} \dsub (map \oplus \{newSensor? \mapsto map(oldSensor?)\}) \\
-        read' = \{oldSensor?\} \dsub (read \oplus \{newSensor? \mapsto read(oldSensor?)\})
-    \end{schema}
+    \begin{enumerate}
+        \item (1 pt) (PROGRAMMING) Define global variable airports in Common LISP and
+        populate it with the above data. Demonstrate that the variable indeed contains the
+        ordered pairs as shown above.
 
-    This schema represents the successful replacement of an old sensor with a new sensor. It includes preconditions and postconditions for the operation.\\
+        \underline{Solution}:
+        \lstinputlisting[language=Lisp]{code/airports-2-1.lisp}
 
-    \textbf{Preconditions}:
-    \begin{itemize}
-        \item $oldSensor?$ must be currently deployed ($oldSensor? \in deployed$).
-        \item $newSensor?$ must not be currently deployed ($newSensor? \notin deployed$).
-        \item $newSensor?$ must be different from oldSensor? ($newSensor? \neq oldSensor?$).
-        \item The new sensor ($newSensor?$) must not be mapped to any location ($newSensor? \notin dom map$).
-    \end{itemize}
+        \begin{figure}[htp]
+            \centering
+            \includegraphics{static/airports-2-1.PNG}
+            \caption{Output of Question 2 - Part 1}
+        \end{figure}
 
-    \textbf{Postconditions}:
-    \begin{itemize}
-        \item The old sensor ($oldSensor?$) is removed from the deployed set, and the new sensor ($newSensor?$) is added ($deployed' = (\{oldSensor?\} \dsub deployed) \cup \{newSensor?\}$).
-        \item The mapping for the old sensor in the map relation is replaced by the mapping for the new sensor ($map' = \{oldSensor?\} \dsub (map \oplus \{newSensor? \mapsto map(oldSensor?)\})$).
-        \item The temperature reading for the old sensor is replaced by the temperature reading for the new sensor in the read relation ($read' = \{oldSensor?\} \dsub (read \oplus \{newSensor? \mapsto read(oldSensor?)\})$).
-    \end{itemize}
+        \item (2 pts) Provide a declaration of variable $monitored$ that holds all airport id's.
+        
+        \underline{Solution}:
+        $$monitored : \mathcal{P}(AIRPORT)$$ 
+        \begin{verbatim}
+            monitored = {YUL, LCY, LHR, MIL, SFO, SDQ}
+        \end{verbatim}
 
-    \begin{schema}{SensorNotFound}
-        \Xi TempMonitor \\
-        sensor? : SENSOR\_TYPE \\
-        response! : MESSAGE
-        \where
-        sensor? \notin deployed \\
-        response! =~'Sensor~not~found'
-    \end{schema}
+        \item (3 pts) What kind of variable is airports? Provide a formal definition together with
+        any and all applicable properties.
 
-    This schema handles the case where the old sensor to be replaced is not found in the system.
+        \underline{Solution}:
+        
+        $airports$ is a partial injective function from the set of airport ids to the set of cities. It is defined as follows:
+        $$airports : AIRPORT \pinj CITY$$
+        \begin{schema}{Airports}
+            city : \mathcal{P}(CITY) \\
+            airportId : \mathcal{P}(AIRPORT) \\
+            airports : airportId \pinj city \\
+            \where
+            \forall a_i, a_j : airports \bullet a_i.airportId \neq a_j.airportId \\
+            \forall a_i, a_j : AIRPORT \bullet a_i \neq a_j \implies a_i.airportId \neq a_j.airportId
+        \end{schema}
 
-    \begin{schema}{SensorAlreadyMapped}
-        \Xi TempMonitor \\
-        sensor? : SENSOR\_TYPE \\
-        response! : MESSAGE
-        \where
-        newSensor? \in \dom map \\
-        response! =~'Sensor~already~mapped'
-    \end{schema}
+        \item (3 pts) Describe what data structure you would deploy to model variable airports.
+        Note that you may not use a Dictionary. Should this be an ordered or an unordered
+        structure? Discuss
 
-    This schema handles the case where the new sensor is already mapped to a location in the system.
-    
-    \begin{schema}{TargetAndNewSensorIdentical}
-        \Xi TempMonitor \\
-        oldSensor?, newSensor? : SENSOR\_TYPE \\
-        response! : MESSAGE
-        \where
-        oldSensor? = newSensor? \\
-        response! =~'Old~and~new~sensor~are~identical'
-    \end{schema}
+        \underline{Solution:}
+        A pair of sets, one containing the airports and another the cities.
+        It should be unordered because each airport must have a unique id, and the order of insertion doesn't matter.
 
-    This schema handles the case where the old sensor and the new sensor are the same.
-    
-    \begin{zed}
-        ReplaceSensor ~\widehat{=} \\
-        \indent \quad (ReplaceSensorOK \land Success) \\
-        \indent \quad \quad \oplus SensorAlreadyDeployed \\
-        \indent \quad \quad \oplus SensorNotFound \\
-        \indent \quad \quad \oplus SensorAlreadyMapped \\
-        \indent \quad \quad \oplus TargetAndNewSensorIdentical
-    \end{zed}
+        \item (4 pts) Provide a formal specification of the state of the system in terms of a Z specification schema
+        
+        \underline{Solution:}
+        \begin{schema}{AirportManagement}
+            airports : AIRPORT \pinj CITY \\
+            monitored : \mathcal{P}(AIRPORT) \\
+            \where
+            \text{dom}(airports) = monitored
+        \end{schema}
 
-    This Z operation combines the success schema $ReplaceSensorOK$ with the error schemata $SensorAlreadyDeployed$, $SensorNotFound$, $SensorAlreadyMapped$, and $TargetAndNewSensorIdentical$. It provides a robust specification for the $ReplaceSensor$ operation, ensuring proper handling of various error conditions and successful execution of the replacement process when all preconditions are met.
-	
+        \item (6 pts) Provide a schema for operation AddAirportOK that adds a new airport to the
+        system. With the aid of success and error schema(s), provide a definition for operation
+        AddAirport that the system will place in its exposed interface.
+        
+        \underline{Solution:}
+        \begin{schema}{AddAirportOK}
+            \Delta AirportManagement \\
+            airport? : AIRPORT \\
+            city? : CITY \\
+            \where
+            airport? \notin \text{dom}(airports) \\
+            airports' = airports \cup \{airport? \mapsto city?\} \\
+        \end{schema}
+        $$MESSAGE ::= ok | error.$$
+
+        \begin{schema}{Success}
+            \Xi AirportManagement \\
+            response! : MESSAGE \\
+            \where
+            airport! = \, 'ok' \\
+        \end{schema}
+
+        \begin{schema}{AirportAlreadyExists}
+            \Xi AirportManagement \\
+            airport? : AIRPORT \\
+            response! : MESSAGE \\
+            \where
+            airport? \in \text{dom}(airports) \\
+            response! = \, 'error' \\
+        \end{schema}
+        $$AppAirpot \, \hat{=} \, (AddAirportOk \land Success) \oplus AirportAlreadyExists$$
+    \end{enumerate}
 \end{spacing}
 
 \end{document}
