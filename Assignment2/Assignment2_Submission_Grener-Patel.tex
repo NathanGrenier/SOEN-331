@@ -257,18 +257,13 @@ Department of Computer Science and Software Engineering\\
             If set union is deployed without a pre-condition when adding a new entry to the $connections$ database table, the consequences could include:
 
             \begin{itemize}
-                \item \textbf{Duplication of Data}: Without a precondition, set union may lead to duplicate entries being added to the database. This can result in inefficiencies and potential data inconsistencies.
-                \item \textbf{Increased Complexity}: The set union operation may add unnecessary complexity to the system, especially if it allows for redundant or conflicting data entries.
-                \item \textbf{Potential Data Integrity Issues}: Inconsistent data entries may arise if set union is used without proper checks, leading to data integrity issues within the system.  
+                \item \textbf{Duplication of Data}: Without a precondition, set union may lead to duplicate entries being added to the database. In our case, there should not be duplicate values in the domain of our binary relation.
             \end{itemize}
 
             \item Relational Overriding:
             \begin{itemize}
-                \item \textbf{Loss of Existing Data}: Relational overriding will replace existing data without considering any conditions. This can lead to the loss of valuable information if not handled carefullly.
-
-                \item \textbf{Potential Data Loss}: If relational overriding is applied without caution, it can overwrite critical information unintentionally, resulting in data loss and inconsistencies.
-
-                \item \textbf{Inconsistencies in Data}: Without a precondition, relational overriding may introduce inconsistencies in the database by replacing existing connections with new ones without proper validation.
+                \item \textbf{Overriding Data}: If an entry with a certain city as the domain already exists in the relation, it will be overwritten. This means that the set of cities it relates to will change. This isn't the desired outcome of a new entry being added.
+                \item \textbf{Unnecessary Operations}: Although not detrimental, a pre-condition less relation override operation may result in a redundant operation. This won't affect the data, but may be a waste of compute (compared to a simple check / pre-condition).
             \end{itemize}
         \end{enumerate}
 
@@ -289,10 +284,10 @@ Department of Computer Science and Software Engineering\\
             \begin{enumerate}
                 \item Check if Montreal is not already in the domain of connections. Since Montreal is present in the domain, the first assertion fails.
 
-                \item Since the first assertion fails, the operation cannot proceed to update the connections. Therefore, the call to \texttt{AddConnection(Montreal, (Boston, NYC))} fails.
+                \item Since the first assertion fails, the operation cannot proceed to add a new ordered pair to the connections. Therefore, the call to \texttt{AddConnection(Montreal, (Boston, NYC))} doesn't execute.
             \end{enumerate}
 
-            If this operation fails, the blame would typically fall on the caller of the function, who invoked the \texttt{AddConnection} function with a city that already exists in the domain of connections. It suggests that the caller did not properly check whether the city being added already exists in the system, leading to a violation of the precondition specified by the first assertion. Therefore, the caller should be responsible for handling such cases or ensuring that only valid data is passed to the \texttt{AddConnection} function.
+            If this operation fails, the blame would typically fall on the client who is, in this case, whoever invoked the \texttt{AddConnection} function. It suggests that the client did not properly check whether the city being added already exists in the system, leading to a violation of the precondition specified by the first assertion.
             
 		\item (2 pts) Consider the following modification to the postcondition of \textit{AddOperation}:
 		      
