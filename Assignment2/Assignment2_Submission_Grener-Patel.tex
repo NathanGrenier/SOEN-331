@@ -97,11 +97,11 @@ Department of Computer Science and Software Engineering\\
 		          
 		\item (2 pts) In the expression $connections \in (...)$, what would RHS be?
 		      
-		      The right-hand side would be the set of all possible binary relations on the set of cities, denoted as '\texttt{CITY}'.
+		      The right-hand side would be the set of all possible sets of ordered pairs of the relation $connections$.
 		      
 		      Formally, the right-hand side can be represented as:
 		      
-		      $$(CITY \times \mathcal{P}(CITY))$$
+		      $$\{CITY \times \mathcal{P}(CITY)\}$$
 		      
 		      Where:
 		      \begin{itemize}
@@ -110,7 +110,7 @@ Department of Computer Science and Software Engineering\\
 		      	\item '\texttt{CITY}$\times \mathcal{P}$(\texttt{CITY})' is the Cartesian product of '\texttt{CITY}' and '$\mathcal{P}$(\texttt{CITY})', which represents the set of all ordered pairs '$(source, destinations)$' where '$source$' is a city and '$destinations$' is a set of cities.
 		      \end{itemize}
 		      
-		      Therefore, the expression '$connections \in (CITY, \mathcal{P}(CITY))$' means that the $connections$ variable is an element of the set of all binary relations on the set of cities.
+		      Therefore, the expression '$connections \in \{CITY, \mathcal{P}(CITY)\}$' means that the $connections$ variable is an element of the set of all binary relations on the set of cities.
 		      
 		\item (2 pts) Is \textit{connections} a function? If so, define the function formally, and reason about the properties of injectivity, surjectivity, and bijectivity.
 		      
@@ -151,7 +151,7 @@ Department of Computer Science and Software Engineering\\
 		      
 		      We are essentially interested in the subset of the connections that involve either Montreal or Halifax as the source city.
 		      
-		      We evaluate the expression:
+		      The result after evaluating the expression:
 		          
 		      \begin{align*}
 		      	Montreal & \mapsto \{Ottawa, Kingston, Quebec, Halifax\}, \\
@@ -168,13 +168,13 @@ Department of Computer Science and Software Engineering\\
 		      
 		      The symbol $\triangleright$ represents the range restriction operator. When applied to a function, it restricts the range of the function to a specified subset.
 		      
-		      In the expression $connections \: \triangleright \: \{\{Montreal, Halifax\}\}$, we are restricting the range of the function represented by $connections$ to the set containing the destinations Montreal and Halifax.
+		      In the expression $connections \: \triangleright \: \{\{Montreal, Halifax\}\}$, we are restricting the range of the function $connections$ to only the set containing the destinations Montreal and Halifax.
 		      
-		      We evaluate the expression:
+		      The result after evaluating the expression:
 		      
 		      $$Quebec \mapsto \{Montreal, Halifax\}$$
 		      
-		      So, after the range restriction, we only have connections where the destination is either Montreal or Halifax.
+		      So, after the range restriction, we only have connections where the set of destination contains Montreal and Halifax.
 		      
 		      In conclusion, the expression $connections \: \triangleright \: \{\{Montreal, Halifax\}\}$ yields the connections from source cities that map to the destinations Montreal and Halifax.
 		          
