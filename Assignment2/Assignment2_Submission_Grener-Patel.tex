@@ -612,7 +612,87 @@ Department of Computer Science and Software Engineering\\
 
         \begin{schema}{DeleteAirportOk}
             \Delta AirportManagement \\
+            airport? : AIRPORT
+            \where
+            airport? \in monitored \\
+            airports' = \{airport?\} \ndres  airports
         \end{schema}
+
+        \begin{schema}{Success}
+            \Xi AirportManagement \\
+            response! : MESSAGE \\
+            \where
+            response! = \, 'ok' \\
+        \end{schema}
+
+        \begin{schema}{AirportDoesNotExist}
+            \Xi AirportManagement \\
+            airport? : AIRPORT \\
+            response! : MESSAGE \\
+            \where
+            airport? \notin monitored \\
+            response! = \, 'error' \\
+        \end{schema}
+        \begin{align*}
+            DeleteAirport \, \hat{=} \, &(DeleteAirportOk \land Success) \\
+            &\oplus (AirportDoesNotExist)
+        \end{align*}
+
+        \item (3 pts) (PROGRAMMING) Define function DeleteAirport in Common LISP.
+        
+        \underline{Solution:}
+        \lstinputlisting[language=Lisp]{code/airports-2-12.lisp}
+
+        \begin{figure}[htp]
+            \centering
+            \includegraphics[width=1\textwidth]{static/airports-2-12.PNG}
+            \caption{Output of Question 2 - Part 12}
+        \end{figure}
+        \newpage
+        \item (6 pts) Provide a schema for operation GetAllAirportsOK that returns all airports
+        hosted by a given city. With the aid of success and error schema(s), provide a definition
+        for operation GetAllAirports that the system will place in its exposed interface.
+
+        \underline{Solution:}
+        \begin{schema}{GetAllAirportsOK}
+            \Xi AirportManagement \\
+            city? : CITY \\
+            airportsAtCity! : \mathcal{P}(AIRPORT) \\
+            \where
+            city? \in \text{ran}(airports) \\
+            airportsAtCity! = \texttt{dom}(airports \rres \{city?\})
+        \end{schema}
+
+        \begin{schema}{Success}
+            \Xi AirportManagement \\
+            response! : MESSAGE \\
+            \where
+            response! = \, 'ok' \\
+        \end{schema}
+
+        \begin{schema}{CityDoesNotExist}
+            \Xi AirportManagement \\
+            city? : CITY \\
+            response! : MESSAGE \\
+            \where
+            city? \notin \texttt{ran}(airports) \\
+            response! = \, 'error' \\
+        \end{schema}
+        \begin{align*}
+            GetAllAirports \, \hat{=} \, &(GetAllAirportsOK \land Success) \\
+            &\oplus (CityDoesNotExist)
+        \end{align*}
+        \newpage
+        \item (3 pts) (PROGRAMMING) Define function GetAllAirports in Common LISP.
+        
+        \underline{Solution:}
+        \lstinputlisting[language=Lisp]{code/airports-2-14.lisp}
+
+        \begin{figure}[htp]
+            \centering
+            \includegraphics[width=1\textwidth]{static/airports-2-14.PNG}
+            \caption{Output of Question 2 - Part 14}
+        \end{figure}
     \end{enumerate}
 \end{spacing}
 
