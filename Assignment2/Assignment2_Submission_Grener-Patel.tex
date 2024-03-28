@@ -701,83 +701,39 @@ Department of Computer Science and Software Engineering\\
 
     Consider the temperature monitoring system from our lecture notes. In this part, we will extract the specification with a new requirement.
     \newline \newline
-    \textbf{Operation ReplaceSensor}~~Sensors are physical devices, subjected to deterioration, or other type of damage. We need to provide the ability of the system to replace a sensor with another. For simplicity, let us not plan ("fix", and) reuse them, but permenantly remove them from the system.
+    \textbf{Operation ReplaceSensor}~~Sensors are physical devices, subjected to deterioration, or other type of damage. We need to provide the ability of the system to replace a sensor with another. For simplicity, let us not plan ("fix", and) reuse them, but permanently remove them from the system.`'
 
-    \begin{schema}{ReplaceSensorOK}
-        \Delta TempMonitor \\
-        oldSensor?, newSensor? : SENSOR\_TYPE \\
-        \where
-        oldSensor? \in deployed \\
-        newSensor? \notin deployed \\
-        newSensor? \neq oldSensor? \\
-        newSensor? \notin \dom map \\
-        deployed' = (\{oldSensor?\} \dsub deployed) \cup \{newSensor?\} \\
-        map' = \{oldSensor?\} \dsub (map \oplus \{newSensor? \mapsto map(oldSensor?)\}) \\
-        read' = \{oldSensor?\} \dsub (read \oplus \{newSensor? \mapsto read(oldSensor?)\})
-    \end{schema}
-
-    This schema represents the successful replacement of an old sensor with a new sensor. It includes preconditions and postconditions for the operation.\\
-
-    \textbf{Preconditions}:
-    \begin{itemize}
-        \item $oldSensor?$ must be currently deployed ($oldSensor? \in deployed$).
-        \item $newSensor?$ must not be currently deployed ($newSensor? \notin deployed$).
-        \item $newSensor?$ must be different from oldSensor? ($newSensor? \neq oldSensor?$).
-        \item The new sensor ($newSensor?$) must not be mapped to any location ($newSensor? \notin dom map$).
-    \end{itemize}
-
-    \textbf{Postconditions}:
-    \begin{itemize}
-        \item The old sensor ($oldSensor?$) is removed from the deployed set, and the new sensor ($newSensor?$) is added ($deployed' = (\{oldSensor?\} \dsub deployed) \cup \{newSensor?\}$).
-        \item The mapping for the old sensor in the map relation is replaced by the mapping for the new sensor ($map' = \{oldSensor?\} \dsub (map \oplus \{newSensor? \mapsto map(oldSensor?)\})$).
-        \item The temperature reading for the old sensor is replaced by the temperature reading for the new sensor in the read relation ($read' = \{oldSensor?\} \dsub (read \oplus \{newSensor? \mapsto read(oldSensor?)\})$).
-    \end{itemize}
-
-    \begin{schema}{SensorNotFound}
-        \Xi TempMonitor \\
-        sensor? : SENSOR\_TYPE \\
-        response! : MESSAGE
-        \where
-        sensor? \notin deployed \\
-        response! =~'Sensor~not~found'
-    \end{schema}
-
-    This schema handles the case where the old sensor to be replaced is not found in the system.
-
-    \begin{schema}{SensorAlreadyMapped}
-        \Xi TempMonitor \\
-        sensor? : SENSOR\_TYPE \\
-        response! : MESSAGE
-        \where
-        newSensor? \in \dom map \\
-        response! =~'Sensor~already~mapped'
-    \end{schema}
-
-    This schema handles the case where the new sensor is already mapped to a location in the system.
-    
-    \begin{schema}{TargetAndNewSensorIdentical}
-        \Xi TempMonitor \\
-        oldSensor?, newSensor? : SENSOR\_TYPE \\
-        response! : MESSAGE
-        \where
-        oldSensor? = newSensor? \\
-        response! =~'Old~and~new~sensor~are~identical'
-    \end{schema}
-
-    This schema handles the case where the old sensor and the new sensor are the same.
-    
-    \begin{zed}
-        ReplaceSensor ~\widehat{=} \\
-        \indent \quad (ReplaceSensorOK \land Success) \\
-        \indent \quad \quad \oplus SensorAlreadyDeployed \\
-        \indent \quad \quad \oplus SensorNotFound \\
-        \indent \quad \quad \oplus SensorAlreadyMapped \\
-        \indent \quad \quad \oplus TargetAndNewSensorIdentical
-    \end{zed}
-
-    This Z operation combines the success schema $ReplaceSensorOK$ with the error schemata $SensorAlreadyDeployed$, $SensorNotFound$, $SensorAlreadyMapped$, and $TargetAndNewSensorIdentical$. It provides a robust specification for the $ReplaceSensor$ operation, ensuring proper handling of various error conditions and successful execution of the replacement process when all preconditions are met.
-
-
+    \begin{class}{ReplaceableSensor}
+        \sres (DeploySensor, ReadTemperature, ReplaceSensor) \\
+        TempMonitor \\
+        \begin{schema}{ReplaceSensorOK}
+            \Delta ReplaceableSensor \\
+            oldSensor?, newSensor? : SENSOR\_TYPE \\
+            \where
+            oldSensor? \in deployed \\
+            newSensor? \notin deployed \\
+            deployed' = (deployed \setminus \{oldSensor?\}) \cup \{newSensor?\} \\
+            map' = \{oldSensor?\} \dsub (map \cup \{newSensor? \mapsto map(oldSensor?)\}) \\
+            read' = \{oldSensor?\} \dsub (read \cup \{newSensor? \mapsto read(oldSensor?)\})
+        \end{schema} \\
+        \begin{schema}{SensorNotFound}
+            \Xi ReplaceableSensor \\
+            oldSensor? : SENSOR\_TYPE \\
+            response! : MESSAGE
+            \where
+            oldSensor? \notin deployed \\
+            response! =~'Sensor~not~found'
+        \end{schema} \\
+        \begin{schema}{SensorAlreadyDeployed}
+            \Xi ReplaceableSensor \\
+            newSensor? : SENSOR\_TYPE \\
+            response! : MESSAGE
+            \where
+            newSensor? \in deployed \\
+            response! =~'Sensor~already~deployed'
+        \end{schema} \\
+        $$ReplaceSensor ~\widehat{=} \, \,              (ReplaceSensorOK \land Success) \\ \indent \oplus (SensorNotFound \lor SensorAlreadyDeployed)$$
+    \end{class}
 \end{spacing}
 
 \end{document}
