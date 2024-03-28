@@ -289,15 +289,15 @@ Department of Computer Science and Software Engineering\\
 
             If this operation fails, the blame would typically fall on the client who is, in this case, whoever invoked the \texttt{AddConnection} function. It suggests that the client did not properly check whether the city being added already exists in the system, leading to a violation of the precondition specified by the first assertion.
             
-		\item (2 pts) Consider the following modification to the postcondition of \textit{AddOperation}:
+		\item (2 pts) Consider the following modification to the postcondition of \textit{AddConnection}:
 		      
 		      $$connections'=connections \: \oplus \: \{city? \mapsto destinations?\}$$
 		      
 		      What would be the result of the call \texttt{AddConnection(Kingston, (Boston,NYC)}? In the absence of a precondition, can relational overriding unintentionally capture the intent of the operation? \newline
         
-        The modified postcondition for the \textit{AddOperation} utilizes relational overriding ($\oplus$) to update the connections. It specifies that the new entry $city? \: \mapsto \: destinations?)$ should be added to the existing connections, overriding any existing mapping for the same city if it exists.
+        The modified postcondition for the \textit{AddConnection} utilizes relational overriding ($\oplus$) to add a new entry to the relation named connections. It specifies that the new entry $city? \: \mapsto \: destinations?)$ should be added to the existing connections, overriding any existing mapping for the same city if it exists.
 
-        Now, let's consider the call \texttt{AddConnection(Kingston, (Boston, NYC))}:
+        Now, let's consider the call \texttt{AddOperation(Kingston, (Boston, NYC))}:
 
         \begin{enumerate}
             \item Since Kingston is not in the domain of connections, the operation can proceed without any conflict.
@@ -307,7 +307,7 @@ Department of Computer Science and Software Engineering\\
 
         In this case, since Kingston is not already in the connections, the postcondition simply adds a new entry for Kingston mapped to the destinations (Boston, NYC).
 
-        In the absence of a precondition, relational overriding can unintentionally capture the intent of the operation if there are conflicting entries. For example, if Kingston already existed in the connections with different destinations, the use of relational overriding would replace those destinations with the new ones (Boston, NYC), potentially overriding the existing connections unintentionally.
+        In the absence of a precondition, relational overriding can unintentionally capture the intent of the operation if there are no conflicting entries. On the other hand, if Kingston already existed in the connections with different destinations, the use of relational overriding would replace those destinations with the new ones (Boston, NYC), potentially overriding the existing connections unintentionally. This would capture the intent of the operation $AddConnection$.
         
         Therefore, careful consideration should be given to the potential consequences of using relational overriding without a precondition to ensure that it aligns with the intended behavior of the operation.
   
