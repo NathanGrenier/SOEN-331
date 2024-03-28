@@ -703,11 +703,11 @@ Department of Computer Science and Software Engineering\\
     \newline \newline
     \textbf{Operation ReplaceSensor}~~Sensors are physical devices, subjected to deterioration, or other type of damage. We need to provide the ability of the system to replace a sensor with another. For simplicity, let us not plan ("fix", and) reuse them, but permanently remove them from the system.`'
 
-    \begin{class}{ReplaceableSensor}
+    \begin{class}{ReplaceableTempMonitor}
         \sres (DeploySensor, ReadTemperature, ReplaceSensor) \\
         TempMonitor \\
         \begin{schema}{ReplaceSensorOK}
-            \Delta ReplaceableSensor \\
+            \Delta ReplaceableTempMonitor \\
             oldSensor?, newSensor? : SENSOR\_TYPE \\
             \where
             oldSensor? \in deployed \\
@@ -717,7 +717,7 @@ Department of Computer Science and Software Engineering\\
             read' = \{oldSensor?\} \dsub (read \cup \{newSensor? \mapsto read(oldSensor?)\})
         \end{schema} \\
         \begin{schema}{SensorNotFound}
-            \Xi ReplaceableSensor \\
+            \Xi ReplaceableTempMonitor \\
             oldSensor? : SENSOR\_TYPE \\
             response! : MESSAGE
             \where
@@ -725,7 +725,7 @@ Department of Computer Science and Software Engineering\\
             response! =~'Sensor~not~found'
         \end{schema} \\
         \begin{schema}{SensorAlreadyDeployed}
-            \Xi ReplaceableSensor \\
+            \Xi ReplaceableTempMonitor \\
             newSensor? : SENSOR\_TYPE \\
             response! : MESSAGE
             \where
