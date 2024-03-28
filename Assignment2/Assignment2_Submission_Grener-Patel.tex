@@ -322,10 +322,10 @@ Department of Computer Science and Software Engineering\\
 		      
         Define the schema for operation $GetDestinations$ which returns all destinations for one given city.
 
-        To define the schema for the operation $GetDestinationsGetDestinations$, which returns all destinations for one given city, we can use the Z notation. The schema will take a city as input and return its corresponding set of destinations. Here's how we can define it:
+        To define the schema for the operation $GetDestinations$, which returns all destinations for one given city, we can use the Z notation. The schema will take a city as input and return its corresponding set of destinations. Here's how we can define it:
 
         \begin{schema}{GetDestinations}
-        \Delta RailwayManagement \\
+        \Xi RailwayManagement \\
         city? : CITY \\
         destinations! : \mathcal{P}CITY \\
         \where
@@ -335,16 +335,12 @@ Department of Computer Science and Software Engineering\\
 
         In this schema:
         \begin{itemize}
-            \item $GetDestinationsGetDestinations$ represents the operation schema.
-            \item $\triangle$ RailwayManagement denotes that this operation may update the state of the system represented RailwayManagement.
+            \item $GetDestinations$ represents the operation schema.
+            \item $\Xi$ RailwayManagement denotes that this operation doesn't affect the state of the RailwayManagement object.
             \item $city?$ is an input variable representing the city for which destinations are requested
             \item $destinations!$ is an output variable representing the set of destinations corresponding to the input city.
-            \item The where clause ensures that the input city ($city?$) is a valid city in the system (i.e., it exists in the set cities).
-            \item The assignment $destinations!=connections(city?)$ retrieves the set of destinations for the given city from the connections mapping.
         \end{itemize}
-
-        This schema ensures that the operation $GetDestinations$ operates correctly within the context of the $RailwayManagement$ state schema, returning the set of destinations for a given city.
-		      
+        		      
 		\item (1 pt) (\textbf{PROGRAMMING}) Define global variables $connections$ in Common LISP and populate it with some sample data. Demonstrate that the variable indeed contains the ordered pairs as shown above.
 
         \lstinputlisting[language=Lisp]{code/connections-1-13.lisp}
