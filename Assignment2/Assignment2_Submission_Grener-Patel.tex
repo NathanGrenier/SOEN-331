@@ -499,6 +499,7 @@ Department of Computer Science and Software Engineering\\
             city? : CITY \\
             \where
             airport? \notin monitored \\
+            monitored' = monitored \cup \{airport?\} \\
             airports' = airports \cup \{airport? \mapsto city?\} \\
         \end{schema}
         $$MESSAGE ::= ok | error.$$
@@ -531,7 +532,7 @@ Department of Computer Science and Software Engineering\\
             \includegraphics[width=1\textwidth]{static/airports-2-7.PNG}
             \caption{Output of Question 2 - Part 7}
         \end{figure}
-        
+        \newpage
         \item (6 pts) Provide a schema for operation UpdateAirportOK that updates the host city
         of a given airport. With the aid of success and error schema(s), provide a definition
         for operation UpdateAirport that the system will place in its exposed interface.
@@ -615,6 +616,7 @@ Department of Computer Science and Software Engineering\\
             airport? : AIRPORT
             \where
             airport? \in monitored \\
+            monitored' = monitored \setminus \{airport?\} \\
             airports' = \{airport?\} \ndres  airports
         \end{schema}
 
@@ -637,7 +639,7 @@ Department of Computer Science and Software Engineering\\
             DeleteAirport \, \hat{=} \, &(DeleteAirportOk \land Success) \\
             &\oplus (AirportDoesNotExist)
         \end{align*}
-
+        \newpage
         \item (3 pts) (PROGRAMMING) Define function DeleteAirport in Common LISP.
         
         \underline{Solution:}

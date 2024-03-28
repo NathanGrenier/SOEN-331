@@ -1,39 +1,38 @@
 ;; Initialize the hash table
-(defvar *monitored* (make-hash-table :test 'equal))
+(defvar *airports* (make-hash-table :test 'equal))
 
 ;; Add some data to the hash table
-(setf (gethash 'YUL *monitored*) 'Montreal)
-(setf (gethash 'LCY *monitored*) 'London)
-(setf (gethash 'LHR *monitored*) 'London)
-(setf (gethash 'MIL *monitored*) 'Milan)
-(setf (gethash 'SFO *monitored*) 'San_Francisco)
-(setf (gethash 'SDQ *monitored*) 'Santo_Domingo)
+(when (zerop (hash-table-count *airports*)) ;; This line makes sure that the hash table is empty before adding data
+    (setf (gethash 'YUL *airports*) 'Montreal)
+    (setf (gethash 'LCY *airports*) 'London)
+    (setf (gethash 'LHR *airports*) 'London)
+    (setf (gethash 'MIL *airports*) 'Milan)
+    (setf (gethash 'SFO *airports*) 'San_Francisco)
+    (setf (gethash 'SDQ *airports*) 'Santo_Domingo))
+
+;; Initialize the monitored airports
+(defvar *monitored* (list `YUL `LCY `LHR `MIL `SFO `SDQ))
 
 (defun UpdateAirport (airport city)
-    (cond ((not (key-present airport *monitored*)) (format t "Airport ~a does not exist in hash-table ~a.~%" airport (symbol-name `*monitored*)))
-          ((equal city (gethash airport *monitored*)) (format t "Record (~a -> ~a) already exists.~%" airport city))
-          (t (format t "Updated (~a -> ~a) to: ~a -> ~a.~%" airport (gethash airport *monitored*) airport city) (setf (gethash airport *monitored*) city))  
+    (cond ((not (includes-airport airport *monitored*)) (format t "Airport ~a does not exist in hash-table ~a.~%" airport (symbol-name `*airports*)))
+          ((equal city (gethash airport *airports*)) (format t "Record (~a -> ~a) already exists.~%" airport city))
+          (t (format t "Updated (~a -> ~a) to: ~a -> ~a.~%" airport (gethash airport *airports*) airport city) (setf (gethash airport *airports*) city))  
         ))
 
-;; Get both values of gethash, bind them to value and found, then return found. The second value returned by gethash is a boolean representing if the key was found.
-(defun key-present (key hash-table)
-    (multiple-value-bind (_ found) (gethash key hash-table)
-    (declare (ignore _)) ;; This line is to suppress the warning about the unused variable _
-    found))
+(defun includes-airport (airport monitored)
+    (member airport monitored))
 
-(format t "Before Update:~%")
-;; Display the initial contents of the hash table
-(maphash (lambda (key value) 
-                (format t "~a ~a~%" key value))
-          *monitored*)
+(defun display-contents (list title)
+    (format t "~a:~%" title)
+    (case (type-of list)
+        (hash-table (maphash (lambda (key value) (format t "~a ~a~%" key value)) list))
+        (cons (mapcar (lambda (value) (format t "~a~%" value)) list))))
+
+(display-contents *airports* "Values of *airports* Before the Update")
 
 ;; Test the function
 (UpdateAirport 'YUL 'Montreal)
 (UpdateAirport 'ZZZ 'Toronto)
 (UpdateAirport 'LCY 'Glasgow)
 
-(format t "After Update:~%")
-;; Display the initial contents of the hash table
-(maphash (lambda (key value) 
-                (format t "~a ~a~%" key value))
-          *monitored*)
+(display-contents *airports* "Values of *airports* After the Update")

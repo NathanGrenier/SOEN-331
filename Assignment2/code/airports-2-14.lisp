@@ -1,18 +1,19 @@
 ;; Initialize the hash table
-(defvar *monitored* (make-hash-table :test 'equal))
+(defvar *airports* (make-hash-table :test 'equal))
 
 ;; Add some data to the hash table
-(setf (gethash 'YUL *monitored*) 'Montreal)
-(setf (gethash 'LCY *monitored*) 'London)
-(setf (gethash 'LHR *monitored*) 'London)
-(setf (gethash 'MIL *monitored*) 'Milan)
-(setf (gethash 'SFO *monitored*) 'San_Francisco)
-(setf (gethash 'SDQ *monitored*) 'Santo_Domingo)
+(when (zerop (hash-table-count *airports*)) ;; This line makes sure that the hash table is empty before adding data
+    (setf (gethash 'YUL *airports*) 'Montreal)
+    (setf (gethash 'LCY *airports*) 'London)
+    (setf (gethash 'LHR *airports*) 'London)
+    (setf (gethash 'MIL *airports*) 'Milan)
+    (setf (gethash 'SFO *airports*) 'San_Francisco)
+    (setf (gethash 'SDQ *airports*) 'Santo_Domingo))
 
 (defun GetAllAirports (city)
     (format t "Getting all airports for city ~a:~%" city)
-    (cond ((not (member city (get-values *monitored*))) (format t "City ~a does not exist in hash-table ~a.~%" city (symbol-name `*monitored*)))
-          (t (mapcar (lambda (airport) (format t "~a -> ~a.~%" airport city)) (get-keys-from-value city *monitored*)))))
+    (cond ((not (member city (get-values *airports*))) (format t "City ~a does not exist in hash-table ~a.~%" city (symbol-name `*airports*)))
+          (t (mapcar (lambda (airport) (format t "~a -> ~a.~%" airport city)) (get-keys-from-value city *airports*)))))
 
 ;; Get a list of all values in the hash table
 (defun get-values (hash-table)
@@ -29,11 +30,13 @@
         (maphash (lambda (key val) (if (equal val value) (push key keys))) hash-table)
         keys))
 
-(format t "Initial Elements:~%")
-;; Display the initial contents of the hash table
-(maphash (lambda (key value) 
-                (format t "~a ~a~%" key value))
-          *monitored*)
+(defun display-contents (list title)
+    (format t "~a:~%" title)
+    (case (type-of list)
+        (hash-table (maphash (lambda (key value) (format t "~a ~a~%" key value)) list))
+        (cons (mapcar (lambda (value) (format t "~a~%" value)) list))))
+
+(display-contents *airports* "Initial Elements in *airports*")
 
 ;; Test the function
 (GetAllAirports 'Montreal)
