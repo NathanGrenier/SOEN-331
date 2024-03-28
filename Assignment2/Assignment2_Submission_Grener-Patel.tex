@@ -87,11 +87,11 @@ Department of Computer Science and Software Engineering\\
         
         \noindent \underline{Solution}:
 
-		      Yes, the variable $connections$ represents a binary relation. A binary relation is a set of ordered pairs where each pair consists of two elements. In this case, the pairs in $connections$ are formed by associating a source city with its corresponding set of destination citites.
+		      Yes, the variable $connections$ represents a binary relation. A binary relation is a set of ordered pairs where each pair consists of two elements. In this case, the pairs in $connections$ are formed by associating a source city with its corresponding set of destination cities.
 		      
 		      Formally, a binary relation $R$ from set $A$ to set $B$ is defined as a subset of the cartesian product $A\times B$. In this context, the set of connections can be expressed formally as:
 		      
-		      $$connections \subseteq \{(source, destination) | source \in CITY, destination \in CITY\}$$
+		      $$connections \subseteq \{(source, destination) | source \in CITY, destination \in \mathcal{P}(CITY)\}$$
 		      
 		      Therefore, the variable $connections$ conforms to the definition of a binary relation as it relates source cities to their respective destination cities in pairs.
 		          
