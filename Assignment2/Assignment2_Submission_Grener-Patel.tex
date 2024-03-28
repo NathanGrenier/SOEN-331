@@ -532,6 +532,88 @@ Department of Computer Science and Software Engineering\\
             \includegraphics[width=1\textwidth]{static/airports-2-7.PNG}
             \caption{Output of Question 2 - Part 7}
         \end{figure}
+        
+        \item (6 pts) Provide a schema for operation UpdateAirportOK that updates the host city
+        of a given airport. With the aid of success and error schema(s), provide a definition
+        for operation UpdateAirport that the system will place in its exposed interface.
+
+        \underline{Solution:}
+
+        \begin{schema}{UpdateAirportOK}
+            \Delta AirportManagement \\
+            airport? : AIRPORT \\
+            city? : CITY \\
+            \where
+            airport? \in monitored \\
+            airport? \mapsto city? \notin airports \\
+            airports' = airports \oplus \{airport? \mapsto city?\} \\
+        \end{schema}
+
+        \begin{schema}{Success}
+            \Xi AirportManagement \\
+            response! : MESSAGE \\
+            \where
+            response! = \, 'ok' \\
+        \end{schema}
+
+        \begin{schema}{AirportDoesNotExist}
+            \Xi AirportManagement \\
+            airport? : AIRPORT \\
+            response! : MESSAGE \\
+            \where
+            airport? \notin monitored \\
+            response! = \, 'error' \\
+        \end{schema}
+
+        \begin{schema}{AirportAlreadyExists}
+            \Xi AirportManagement \\
+            airport? : AIRPORT \\
+            city? : CITY \\
+            response! : MESSAGE \\
+            \where
+            airport? \mapsto city? \in airports \\
+            response! = \, 'error' \\
+        \end{schema}
+        \begin{align*}
+            UpdateAirport \, \hat{=} \, &(UpdateAirportOK \land Success) \\
+            &\oplus (AirportDoesNotExist \lor AirportAlreadyExists)
+        \end{align*}
+
+        \item (1 pt) What would be the value of variable airports upon calling UpdateAirport(YUL, Dorval)?
+        
+        \underline{Solution:}        
+        \begin{align*}
+            \text{airports} = \{
+            & \textcolor{blue}{\text{YUL} \mapsto \text{Dorval},} \\
+            & \text{LCY} \mapsto \text{London UK}, \\
+            & \text{LHR} \mapsto \text{London UK}, \\
+            & \text{MIL} \mapsto \text{Milan}, \\
+            & \text{SFO} \mapsto \text{San Francisco}, \\
+            & \text{SDQ} \mapsto \text{Santo Domingo} \\
+            \}
+        \end{align*}
+
+        \item (3 pts) (PROGRAMMING) Define function UpdateAirport in Common LISP.
+
+        \underline{Solution:}
+        \lstinputlisting[language=Lisp]{code/airports-2-10.lisp}
+
+        \begin{figure}[htp]
+            \centering
+            \includegraphics[width=1\textwidth]{static/airports-2-10.PNG}
+            \caption{Output of Question 2 - Part 10}
+        \end{figure}
+
+        \newpage
+        \item (6 pts) Provide a schema for operation DeleteAirportOK that removes an airport
+        from the system. With the aid of success and error schema(s), provide a definition for
+        operation DeleteAirport that the system will place in its exposed interface.
+
+        \underline{Solution:}
+
+        \begin{schema}{DeleteAirportOk}
+            \Delta AirportManagement \\
+        \end{schema}
     \end{enumerate}
 \end{spacing}
 
