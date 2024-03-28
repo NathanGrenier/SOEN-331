@@ -476,8 +476,7 @@ Department of Computer Science and Software Engineering\\
         structure? Discuss
 
         \underline{Solution:}
-        The AIRPORT should be represented with a set to ensure that there are no duplicate airport ids. The CITY should be represented with a bag due to the need for repeating cities and an unbounded amount of them. The airports variable should be represented as a partial function that maps each airport id to its corresponding city.
-        It should be unordered because the order of insertion doesn't matter.
+        I would use the linked list ADT to model the airport variable's relation in the case where we can't use a dictionary. This would work because each node of the list would contain a key and a value. When adding a new element, we would iterate over all nodes and check if the new key to be added already exists. This check would ensure that our list doesn't contain any duplicate keys. The linked list is an example of an unordered ADT (the order of insertion doesn't matter).
 
         \item (4 pts) Provide a formal specification of the state of the system in terms of a Z specification schema
         
@@ -565,7 +564,7 @@ Department of Computer Science and Software Engineering\\
             response! = \, 'error' \\
         \end{schema}
 
-        \begin{schema}{AirportAlreadyExists}
+        \begin{schema}{AirportCityPairAlreadyExists}
             \Xi AirportManagement \\
             airport? : AIRPORT \\
             city? : CITY \\
@@ -576,7 +575,7 @@ Department of Computer Science and Software Engineering\\
         \end{schema}
         \begin{align*}
             UpdateAirport \, \hat{=} \, &(UpdateAirportOK \land Success) \\
-            &\oplus (AirportDoesNotExist \lor AirportAlreadyExists)
+            &\oplus (AirportDoesNotExist \lor AirportCityPairAlreadyExists)
         \end{align*}
 
         \item (1 pt) What would be the value of variable airports upon calling UpdateAirport(YUL, Dorval)?
